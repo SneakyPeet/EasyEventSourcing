@@ -44,8 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Library1.fs" />
     <None Include="Script.fsx" />
+    <Compile Include="Messages.fs" />
+    <Compile Include="ShoppingCart.fs" />
+    <Compile Include="Orders.fs" />
+    <Compile Include="Shipping.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

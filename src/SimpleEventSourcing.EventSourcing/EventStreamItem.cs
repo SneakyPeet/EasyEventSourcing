@@ -4,12 +4,12 @@ using System;
 
 namespace SimpleEventSourcing.EventSourcing
 {
-    public abstract class EventsAsHistory
+    public abstract class EventStreamItem
     {
         private List<IEvent> changes;
         protected Dictionary<Type, Action<IEvent>> eventAppliers;
 
-        protected EventsAsHistory()
+        protected EventStreamItem()
         {
             changes = new List<IEvent>();
             eventAppliers = new Dictionary<Type, Action<IEvent>>();
@@ -20,6 +20,8 @@ namespace SimpleEventSourcing.EventSourcing
             this.Apply(evt);
             this.changes.Add(evt);
         }
+
+        public abstract string Name { get; }
 
         private void Apply(IEvent evt)
         {

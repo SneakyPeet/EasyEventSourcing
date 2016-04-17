@@ -5,7 +5,7 @@ namespace SimpleEventSourcing.EventSourcing
 {
     public interface IRepository
     {
-        TAggregate GetById<TAggregate>(Guid id) where TAggregate : Aggregate;
-        void Save(IEnumerable<Aggregate> aggregates);
+        T GetById<T>(Guid id) where T : EventStreamItem, new();
+        void Save(IEnumerable<EventStreamItem> streamItems);
     }
 }

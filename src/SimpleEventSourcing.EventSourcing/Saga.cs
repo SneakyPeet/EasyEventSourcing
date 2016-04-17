@@ -4,7 +4,7 @@ using SimpleEventSourcing.Messages;
 
 namespace SimpleEventSourcing.EventSourcing
 {
-    public abstract class Saga : EventsAsHistory
+    public abstract class Saga : EventStreamItem
     {
         private List<ICommand> unpublishedCommands;
 

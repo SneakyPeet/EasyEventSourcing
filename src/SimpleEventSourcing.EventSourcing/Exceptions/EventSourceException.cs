@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace SimpleEventSourcing.EventSourcing
+namespace SimpleEventSourcing.EventSourcing.Exceptions
 {
     [Serializable]
-    public class EventSourceException : Exception
+    public abstract class EventSourceException : Exception
     {
         public EventSourceException()
         {

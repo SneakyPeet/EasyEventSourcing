@@ -40,12 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\NoCommandHandlerRegisteredException.cs" />
+    <Compile Include="Exceptions\NoEventApplyMethodRegisteredException.cs" />
     <Compile Include="IEventStore.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Saga.cs" />
     <Compile Include="Aggregate.cs" />
     <Compile Include="EventStreamItem.cs" />
-    <Compile Include="EventSourceException.cs" />
+    <Compile Include="Exceptions\EventSourceException.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="ICommandHandlerFactory.cs" />
     <Compile Include="IRepository.cs" />

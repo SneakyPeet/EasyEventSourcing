@@ -6,6 +6,7 @@ using SimpleEventSourcing.EventStore.InMemory;
 
 using System;
 using System.Collections.Generic;
+using SimpleEventSourcing.EventSourcing.Exceptions;
 
 namespace SimpleEventSourcing.Application
 {
@@ -30,7 +31,7 @@ namespace SimpleEventSourcing.Application
                     return handler;
                 }
             }
-            throw new EventSourceException("Handler Factory for " + typeof(TCommand).Name + " not registred");
+            throw new NoCommandHandlerRegisteredException(typeof (TCommand));
         }
     }
 }

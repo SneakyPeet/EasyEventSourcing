@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleEventSourcing.EventSt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleEventSourcing.Ui.Console", "src\SimpleEventSourcing.Ui.Console\SimpleEventSourcing.Ui.Console.csproj", "{BCA44820-43CF-4ADB-A913-88DA62C674EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleEventSourcing.Tests", "src\SimpleEventSourcing.Tests\SimpleEventSourcing.Tests.csproj", "{09BDB9CF-11A9-48BE-B5B6-2D41DC135949}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{BCA44820-43CF-4ADB-A913-88DA62C674EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCA44820-43CF-4ADB-A913-88DA62C674EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCA44820-43CF-4ADB-A913-88DA62C674EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09BDB9CF-11A9-48BE-B5B6-2D41DC135949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09BDB9CF-11A9-48BE-B5B6-2D41DC135949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09BDB9CF-11A9-48BE-B5B6-2D41DC135949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09BDB9CF-11A9-48BE-B5B6-2D41DC135949}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SimpleEventSourcing.Messages;
+using SimpleEventSourcing.EventSourcing.Exceptions;
 using System;
 
 namespace SimpleEventSourcing.EventSourcing
@@ -27,7 +28,7 @@ namespace SimpleEventSourcing.EventSourcing
         {
             if(!eventAppliers.ContainsKey(evt.GetType()))
             {
-                throw new EventSourceException("No Event Applier Registered For " + evt.GetType());
+                throw new NoEventApplyMethodRegisteredException(evt, this);
             }
             eventAppliers[evt.GetType()](evt);
         }

@@ -17,7 +17,6 @@ namespace SimpleEventSourcing.Ui.Console
             {
                 System.Console.WriteLine(e.Message);
             }
-            
         }
     }
 }

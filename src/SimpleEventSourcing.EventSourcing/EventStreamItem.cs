@@ -14,7 +14,13 @@ namespace SimpleEventSourcing.EventSourcing
         {
             changes = new List<IEvent>();
             eventAppliers = new Dictionary<Type, Action<IEvent>>();
+            RegisterAppliers();
         }
+
+        protected abstract void RegisterAppliers();
+
+        public abstract string Name { get; }
+        protected Guid id { get; set; }
 
         protected void ApplyChanges(IEvent evt)
         {
@@ -22,7 +28,15 @@ namespace SimpleEventSourcing.EventSourcing
             this.changes.Add(evt);
         }
 
-        public abstract string Name { get; }
+        
+
+        public StreamIdentifier StreamIdentifier
+        {
+            get
+            {
+                return new StreamIdentifier(Name, id);
+            }
+        }
 
         private void Apply(IEvent evt)
         {

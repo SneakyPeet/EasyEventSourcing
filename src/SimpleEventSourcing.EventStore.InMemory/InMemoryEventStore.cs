@@ -7,12 +7,12 @@ namespace SimpleEventSourcing.EventStore.InMemory
 {
     public class InMemoryEventStore : IEventStore
     {
-        public IEnumerable<IEvent> GetByStreamId(string streamId)
+        public IEnumerable<IEvent> GetByStreamId(StreamIdentifier streamId)
         {
             throw new NotImplementedException();
         }
 
-        public void Save(List<IEvent> newEvents)
+        public void Save(List<EventStream> newEvents)
         {
             throw new NotImplementedException();
         }

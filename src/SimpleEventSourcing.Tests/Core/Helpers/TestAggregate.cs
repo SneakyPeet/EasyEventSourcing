@@ -7,11 +7,15 @@ namespace SimpleEventSourcing.Tests.Core.Helpers
     {
         public TestAggregate()
         {
-            this.eventAppliers.Add(typeof(TestEvent), (evt) => Apply((TestEvent)evt));
             this.Validation = false;
             this.StateUpdated = false;
         }
         public override string Name { get { return "Test"; } }
+
+        protected override void RegisterAppliers()
+        {
+            this.eventAppliers.Add(typeof(TestEvent), (evt) => Apply((TestEvent)evt));
+        }
 
         public bool StateUpdated { get; internal set; }
         public bool Validation { get; internal set; }

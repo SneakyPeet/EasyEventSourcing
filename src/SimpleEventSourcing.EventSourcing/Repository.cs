@@ -15,17 +15,23 @@ namespace SimpleEventSourcing.EventSourcing
         public T GetById<T>(Guid id) where T : EventStreamItem, new()
         {
             var streamItem = new T();
-            var streamId = streamItem.Name + "-" + id;
+            var streamId = new StreamIdentifier(streamItem.Name, id);
             var history = this.eventStore.GetByStreamId(streamId);
             streamItem.LoadFromHistory(history);
             return streamItem;
         }
+
+        public void Save(EventStreamItem streamItem)
+        {
+            this.Save(new List<EventStreamItem> { streamItem });
+        }
+
         public void Save(IEnumerable<EventStreamItem> streamItems)
         {
-            var newEvents = new List<IEvent>();
+            var newEvents = new List<EventStream>();
             foreach(var item in streamItems)
             {
-                newEvents.AddRange(item.GetUncommitedChanges());
+                newEvents.Add(new EventStream(item.StreamIdentifier, item.GetUncommitedChanges()));
             }
 
             eventStore.Save(newEvents);

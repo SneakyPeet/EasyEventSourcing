@@ -13,7 +13,7 @@ namespace SimpleEventSourcing.Domain.ShoppingCart
         }
         public void Handle(CreateNewCart message)
         {
-            throw new NotImplementedException();
+            repo.Save(ShoppingCart.Create(message.CartId, message.ClientId));
         }
     }
 }

@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FD79F067-CB36-4375-99A1-2A1A134186AC}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{BCA44820-43CF-4ADB-A913-88DA62C674EE}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimpleEventSourcing.Application</RootNamespace>
-    <AssemblyName>SimpleEventSourcing.Application</AssemblyName>
+    <RootNamespace>SimpleEventSourcing.Ui.Console</RootNamespace>
+    <AssemblyName>SimpleEventSourcing.Ui.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,20 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrapper.cs" />
-    <Compile Include="CommandHandlerFactory.cs" />
-    <Compile Include="CommandDispatcher.cs" />
-    <Compile Include="ICommandDispatcher.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimpleEventSourcing.Domain\SimpleEventSourcing.Domain.csproj">
-      <Project>{1c4da1ca-9d9e-4a3d-b9e3-4c11b98df82e}</Project>
-      <Name>SimpleEventSourcing.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimpleEventSourcing.EventSourcing\SimpleEventSourcing.EventSourcing.csproj">
-      <Project>{6f93c10f-dcbf-454d-91f2-6cd521dedd9b}</Project>
-      <Name>SimpleEventSourcing.EventSourcing</Name>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleEventSourcing.Application\SimpleEventSourcing.Application.csproj">
+      <Project>{fd79f067-cb36-4375-99a1-2a1a134186ac}</Project>
+      <Name>SimpleEventSourcing.Application</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimpleEventSourcing.EventStore.InMemory\SimpleEventSourcing.EventStore.InMemory.csproj">
       <Project>{633795e7-d981-415b-971d-c7cb4a472149}</Project>

@@ -46,8 +46,6 @@
     <Compile Include="Aggregate.cs" />
     <Compile Include="EventStreamItem.cs" />
     <Compile Include="EventSourceException.cs" />
-    <Compile Include="IApplication.cs" />
-    <Compile Include="Application.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="ICommandHandlerFactory.cs" />
     <Compile Include="IRepository.cs" />

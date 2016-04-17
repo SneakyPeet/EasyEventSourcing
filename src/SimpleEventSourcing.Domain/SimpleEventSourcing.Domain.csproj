@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FD79F067-CB36-4375-99A1-2A1A134186AC}</ProjectGuid>
+    <ProjectGuid>{1C4DA1CA-9D9E-4A3D-B9E3-4C11B98DF82E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimpleEventSourcing.Application</RootNamespace>
-    <AssemblyName>SimpleEventSourcing.Application</AssemblyName>
+    <RootNamespace>SimpleEventSourcing.Domain</RootNamespace>
+    <AssemblyName>SimpleEventSourcing.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,24 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrapper.cs" />
-    <Compile Include="CommandHandlerFactory.cs" />
-    <Compile Include="CommandDispatcher.cs" />
-    <Compile Include="ICommandDispatcher.cs" />
+    <Compile Include="ShoppingCart\ShoppingCartCommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimpleEventSourcing.Domain\SimpleEventSourcing.Domain.csproj">
-      <Project>{1c4da1ca-9d9e-4a3d-b9e3-4c11b98df82e}</Project>
-      <Name>SimpleEventSourcing.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SimpleEventSourcing.EventSourcing\SimpleEventSourcing.EventSourcing.csproj">
       <Project>{6f93c10f-dcbf-454d-91f2-6cd521dedd9b}</Project>
       <Name>SimpleEventSourcing.EventSourcing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimpleEventSourcing.EventStore.InMemory\SimpleEventSourcing.EventStore.InMemory.csproj">
-      <Project>{633795e7-d981-415b-971d-c7cb4a472149}</Project>
-      <Name>SimpleEventSourcing.EventStore.InMemory</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimpleEventSourcing.Messages\SimpleEventSourcing.Messages.fsproj">
       <Project>{674d8243-e359-4931-bd0d-789ec3526e92}</Project>

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace SimpleEventSourcing.EventSourcing
 {
     [Serializable]
-    internal class EventSourceException : Exception
+    public class EventSourceException : Exception
     {
         public EventSourceException()
         {

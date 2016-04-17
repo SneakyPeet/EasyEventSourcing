@@ -6,7 +6,7 @@ namespace SimpleEventSourcing.Domain.ShoppingCart
 {
     public class ShoppingCart : Aggregate
     {
-        
+
         public override string Name
         {
             get
@@ -17,7 +17,7 @@ namespace SimpleEventSourcing.Domain.ShoppingCart
 
         protected override void RegisterAppliers()
         {
-            this.eventAppliers.Add(typeof(CartCreated), (e) => Apply((CartCreated)e));
+            RegisterApplier<CartCreated>((e) => Apply(e));
         }
 
         private ShoppingCart(Guid cartId, Guid customerId)

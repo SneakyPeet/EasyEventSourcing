@@ -19,6 +19,11 @@ namespace SimpleEventSourcing.EventSourcing
 
         protected abstract void RegisterAppliers();
 
+        protected void RegisterApplier<TEvent>(Action<TEvent> applier) where TEvent : IEvent
+        {
+            eventAppliers.Add(typeof(TEvent), (x) => applier((TEvent)x));
+        }
+
         public abstract string Name { get; }
         protected Guid id { get; set; }
 

@@ -14,7 +14,7 @@ namespace SimpleEventSourcing.Tests.Core.Helpers
 
         protected override void RegisterAppliers()
         {
-            this.eventAppliers.Add(typeof(TestEvent), (evt) => Apply((TestEvent)evt));
+            RegisterApplier<TestEvent>((e) => Apply(e));
         }
 
         public bool StateUpdated { get; internal set; }

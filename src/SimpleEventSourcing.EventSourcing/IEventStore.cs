@@ -6,6 +6,6 @@ namespace SimpleEventSourcing.EventSourcing
     public interface IEventStore
     {
         IEnumerable<IEvent> GetByStreamId(StreamIdentifier streamId);
-        void Save(List<EventStream> newEvents);
+        void Save(List<EventStoreStream> newEvents);
     }
 }

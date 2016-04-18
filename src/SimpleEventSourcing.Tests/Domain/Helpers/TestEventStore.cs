@@ -19,7 +19,7 @@ namespace SimpleEventSourcing.Tests.Domain.Helpers
             throw new Exception("Stream not found");
         }
 
-        public void Save(List<EventStream> newEvents)
+        public void Save(List<EventStoreStream> newEvents)
         {
             foreach (var stream in newEvents)
             {

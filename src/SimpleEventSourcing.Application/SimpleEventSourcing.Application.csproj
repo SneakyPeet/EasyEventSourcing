@@ -44,6 +44,7 @@
     <Compile Include="CommandHandlerFactory.cs" />
     <Compile Include="CommandDispatcher.cs" />
     <Compile Include="ICommandDispatcher.cs" />
+    <Compile Include="ICommandHandlerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

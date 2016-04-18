@@ -12,7 +12,7 @@ namespace SimpleEventSourcing.EventStore.InMemory
             throw new NotImplementedException();
         }
 
-        public void Save(List<EventStream> newEvents)
+        public void Save(List<EventStoreStream> newEvents)
         {
             throw new NotImplementedException();
         }

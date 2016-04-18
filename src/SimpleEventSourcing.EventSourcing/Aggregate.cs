@@ -4,7 +4,7 @@ using SimpleEventSourcing.Messages;
 
 namespace SimpleEventSourcing.EventSourcing
 {
-    public abstract class Aggregate : EventStreamItem
+    public abstract class Aggregate : EventStream
     {
 
     }

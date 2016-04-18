@@ -5,10 +5,10 @@ namespace SimpleEventSourcing.EventSourcing
 {
     public interface IRepository
     {
-        T GetById<T>(Guid id) where T : EventStreamItem, new();
+        T GetById<T>(Guid id) where T : EventStream, new();
 
-        void Save(EventStreamItem streamItem);
+        void Save(EventStream stream);
 
-        void Save(IEnumerable<EventStreamItem> streamItems);
+        void Save(IEnumerable<EventStream> streamItems);
     }
 }

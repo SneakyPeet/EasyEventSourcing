@@ -2,9 +2,9 @@
 
 namespace EasyEventSourcing.EventSourcing
 {
-    public interface ICommandHandler<TCommand> : IHandler where TCommand : ICommand
+    public interface ICommandHandler<in TCommand> : IHandler where TCommand : ICommand
     {
-        void Handle(TCommand message);
+        void Handle(TCommand cmd);
     }
 
     public interface IHandler { }

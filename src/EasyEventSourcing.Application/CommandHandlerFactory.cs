@@ -16,7 +16,9 @@ namespace EasyEventSourcing.Application
         {
             Func<IRepository> newTransientRepo = () => new Repository(eventStore);
 
-            this.handlers.Add(typeof(CreateNewCart), () => new ShoppingCartCommandHandler(newTransientRepo()));
+            Func<ShoppingCartHandler> newTransientShoppingCartHandler = () => new ShoppingCartHandler(newTransientRepo());
+            this.handlers.Add(typeof(CreateNewCart), newTransientShoppingCartHandler);
+            this.handlers.Add(typeof(AddProductToCart), newTransientShoppingCartHandler);
         }
 
         public ICommandHandler<TCommand> Resolve<TCommand>() where TCommand : ICommand

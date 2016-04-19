@@ -20,12 +20,7 @@ namespace EasyEventSourcing.EventSourcing
             return streamItem;
         }
 
-        public void Save(EventStream stream)
-        {
-            this.Save(new List<EventStream> { stream });
-        }
-
-        public void Save(IEnumerable<EventStream> streamItems)
+        public void Save(params EventStream[] streamItems)
         {
             var newEvents = new List<EventStoreStream>();
             foreach(var item in streamItems)

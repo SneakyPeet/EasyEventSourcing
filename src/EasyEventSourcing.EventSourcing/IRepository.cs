@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace EasyEventSourcing.EventSourcing
 {
@@ -7,8 +6,6 @@ namespace EasyEventSourcing.EventSourcing
     {
         T GetById<T>(Guid id) where T : EventStream, new();
 
-        void Save(EventStream stream);
-
-        void Save(IEnumerable<EventStream> streamItems);
+        void Save(params EventStream[] streamItems);
     }
 }

@@ -115,7 +115,7 @@ The Repository is responsible for getting a stream of events from the EventStore
 
 Secondly it takes EventStream objects and passes the newly created events to the EventStore for saving. This is done using `void Save(EventStream stream)`.
 
-I considered implementing a unit of work for persistence across multiple aggregates, but this can just as easily be modeled using `void Save(IEnumerable<EventStream> streamItems)`. Events are bundled before they are sent to the EventStore for saving, simulating a transaction accross aggregates. 
+I considered implementing a unit of work for persistence across multiple aggregates, but this can just as easily be modeled using `void Save(params EventStream[] streamItems)`. Events are bundled before they are sent to the EventStore for saving, simulating a transaction accross aggregates. We can then use the transactions of the database implementation at the database level to ensure all events are persisted.
 
 ###EventStore
 The EventStore simply persists events. Currently EasyEventSourcing uses an in-memory EventStore. [EventStore](https://geteventstore.com/) is the EventStore database of choice.
@@ -139,6 +139,8 @@ Messages can be seen as contract between the application and the outside world. 
 *	Then `Events` (Or `Throws Exception`)
 
 By mocking the EventStore and using the CommandDispatcher as test entry point, it is easy to write tests that follow `f(events,command) => event(s)` and are implementation unaware. This makes the tests robust as they only change when the rules change, not when the rule implementation changes.
+
+However! I am not sure if this is actually a good thing. Testing if an EmptyCart Event was created does not prove that the CartAggregate is infact empty. Hmmmm
 
 #Domain
 ##Rules
@@ -186,7 +188,7 @@ A simple store domain was chosen as everyone is familiar with it. Rules where ch
 
 ###Customer Details
 
-We want to add the Shipping address to the customer if it does not exist. Thinking traditionally one would want to put this on the customer Aggregate. However keeping a list of shipping addresses is mainly there to provide convenience to the customer (it is bad ux to have them fill out the same address constantly)  and we are not really working with addresses seperatly as logic. Therefore we just build a read model containing all the customer addresses. This is a fundamental difference from traditional thinking. The aggregate state should only care about the business logic and properties not relating to the business logic should not be contained in the aggregate.  An aggregate will have not public methods, only public functions that execute logic. However the data is not lost as we keep all history inside our events. Thus we can build up read models separatly from write models. Boom CQRS. 
+We want to add the Shipping address to the customer if it does not exist. Thinking traditionally one would want to put this on the customer Aggregate. However keeping a list of shipping addresses is mainly there to provide convenience to the customer (it is bad ux to have them fill out the same address constantly)  and we are not really working with addresses seperatly as logic. Therefore we just build a read model containing all the customer addresses. This is a fundamental difference from traditional thinking. The aggregate state should only care about the business logic and properties not relating to the business logic should not be contained in the aggregate.  An aggregate will not have any public properties, only public methods that execute logic. However the data is not lost as we keep all history inside our events. Thus we can build up read models separatly from write models. Boom CQRS. 
 
 ##Read Models
 In this example the read models will simply be in-memory objects that keep state. The concepts however can be easily scaled to more appropriate datastore implementations.

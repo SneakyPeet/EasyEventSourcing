@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Store\ShoppingCart.cs" />
-    <Compile Include="Store\ShoppingCartCommandHandler.cs" />
+    <Compile Include="Store\ShoppingCartHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

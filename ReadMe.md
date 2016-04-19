@@ -82,22 +82,21 @@ The bulk of the domain logic is implemented using Aggregates and Sagas. The simp
 * Aggregates generate Events from Commands. Mainly used to implement logic inside a bounded context.
 * Sagas generate Commands from Events (Can be seen as a kind of "transaction" spanning Bounded Contexts).
 
-Both aggregates and sagas inherit from the abstract **EventStream** class. The EventStream implementation is responsible for building state and keeping track of changes to this state in the form of newly created events. There are two basic ways state is built for building state.
+Both aggregates and sagas inherit from the abstract **EventStream** class. The EventStream implementation is responsible for building state and keeping track of changes to this state in the form of newly created events. 
 
-**State from History:**
+Here is how the aggregate manages state.
 
-1. A list of events is provided to the LoadFromHistory Method
-2. These events are sent to the Apply method one by one
-3. The apply method resolves the relevant applier method for the event type and passes the event on
-4. The state of the aggregate is updated in the relevant applier method 
-
-**State from Command:** When an aggregate is asked to perform some action it will
-
-1. Validate its inputs
-2. If inputs are valid it will create an Event associated with the state change
-3. The Event is passed to the ApplyChanges method. This method adds the event to the list of changes then calls the Apply method.
-4. The apply method resolves the relevant applier method for the event type and passes the event on
-5. The state of the aggregate is updated in the relevant applier method
+1. **Build State from History:**
+	1. A list of events is provided to the LoadFromHistory Method
+	2. These events are sent to the Apply method one by one
+	3. The apply method resolves the relevant applier method for the event type and passes the event on
+	4. The state of the aggregate is updated in the relevant applier method 
+2. **Update State from Command:** When an aggregate is asked to perform some action it will
+	1. Validate its inputs
+	2. If inputs are valid it will create an Event associated with the state change
+	3. The Event is passed to the ApplyChanges method. This method adds the event to the list of changes then calls the Apply method.
+	4. The apply method resolves the relevant applier method for the event type and passes the event on
+	5. The state of the aggregate is updated in the relevant applier method
 
 NOTE:
 
@@ -105,12 +104,14 @@ NOTE:
 * Events with no applier method will throw an exception. Again this forces us to be explicit.
 * Applier Methods should never throw exceptions. State should always be built up state from previous events, even if that state is no longer valid. Exceptions relating to logic should be thrown inside the calling method before ApplyChanges is called.
 
+The same is done for Saga's however they are modeled as `f(Events, Event) => (Command(s), Event(s))`.
+
 ###StreamIdentifier
 Streams are identified by using the Aggregate/Saga name as well as the relevant id (Example: `ShoppingCart-809b71b5-1fc5-4039-b7fe-5d23aa58c5b4`). 
 
 ##Persistence
 ###Repository
-The Repository is responsible of taking a stream of events from the EventStore (based on the StreamIdentifier), creating the relevant EventStream object (either an Aggregate or Saga), replaying the events onto that stream to rebuild the state and finally giving the EventStream object back to the CommandHandler. This is all achieved with the `T GetById<T>(Guid id) where T : EventStream` method.
+The Repository is responsible for getting a stream of events from the EventStore (based on the StreamIdentifier), creating the relevant EventStream object (either an Aggregate or Saga), replaying the events onto that stream to rebuild the state and finally giving the EventStream object back to the CommandHandler. This is all achieved with the `T GetById<T>(Guid id) where T : EventStream` method.
 
 Secondly it takes EventStream objects and passes the newly created events to the EventStore for saving. This is done using `void Save(EventStream stream)`.
 
@@ -164,7 +165,8 @@ A simple store domain was chosen as everyone is familiar with it. Rules where ch
 
 ###Shopping Cart
 
-* When sending a command to the shopping cart, the read model is checked to see if a cart exists. If a cart does not exist, we create one.
+* When sending a command to the shopping cart, 
+* the read model is checked to see if a cart exists. If a cart does not exist, we create one.
 * A cart is created using the factory function on the shopping cart class. Note that the consumer provides the cart id, thus we are not reliant on a database to generate an id for us. Internally the factory function creates a CartCreated event. 
 * When changing the contents of the cart, the read model is updated based on the relevant event.
 * When checking out, the shopping cart returns an Order aggregate. 
@@ -188,3 +190,9 @@ We want to add the Shipping address to the customer if it does not exist. Thinki
 
 ##Read Models
 In this example the read models will simply be in-memory objects that keep state. The concepts however can be easily scaled to more appropriate datastore implementations.
+
+#Other Areas Not Yet Explored
+
+* **Snapshots** - Used to save state when there are many events in a stream
+* **Saving Commandse** - Gives the ability to replay all actions against a changed domain and compare the differences. Also acts as a log.
+* **But Who Sent The Command?** - Logging user info as meta data with the command

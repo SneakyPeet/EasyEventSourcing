@@ -1,17 +1,17 @@
-The purpose of SimpleEventSourcing is to showcase a working Application with implemented business rules, built using an event sourcing architecture. The purpose of this project was to assist myself in understanding how to go about building something using event sourcing and secondly to give others new to the concept a starting point.
+The purpose of **SimpleEventSourcing** is to showcase a working Application with implemented business rules, built using an event sourcing architecture. The purpose of this project was to assist myself in understanding how to go about building something using event sourcing and secondly to give others new to the concept a starting point.
 
 * The example tries to be as straightforward as possible, keeping the boilerplate code as simple as possible, while still keeping it usable and maintainable. 
-* Explicit implementation is chosen over Magic. This make it clear what is going on in the system. This also forces us to feel the hurt when making bad decisions (see [talk](http://www.infoq.com/presentations/8-lines-code-refactoring) by Greg Young). 
+* Explicit implementation is chosen over Magic. This makes it clear what is going on in the system. This also forces us to feel the hurt when making bad decisions (see [8 lines of code](http://www.infoq.com/presentations/8-lines-code-refactoring) by Greg Young). 
 * No external libraries are used other than for testing purposes
-* Currently only an in-memory event store is implemented. I hope to add an [EventStore](https://geteventstore.com/) implementation soon.
+* Currently an in-memory event store is implemented for simplicity. For real world application use [EventStore](https://geteventstore.com/).
 
 ##A Simple Overview of Event Sourcing
 
-Event Sourcing is Command Query Responsibility Separation (CQRS), with the added benefit of no data loss. 
+Event Sourcing is **Command Query Responsibility Separation (CQRS)**, with the added benefit of no data loss. 
 
 **Command**
 
-We store the history of things that happened instead of state. We store this history as events. To change our system, we take these events, replay them to build up state, apply some command to this state to generate new events. `Events + Command = Event`.
+Our Audit Log becomes a first class citizen. We store a history of things that happened in our application instead of state (as you would in a traditional database). We store this history as events. To change our system, we take these events, replay them to build up state, apply some command to this state to generate new events. `Events + Command = Event`.
 
 **Query**
 

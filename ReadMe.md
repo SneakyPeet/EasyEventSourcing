@@ -123,7 +123,12 @@ The EventStore simply persists events. Currently EasyEventSourcing uses an in-me
 This is a transport class holding a stream id and the related events.
 
 ##Event Handlers
-The role of Event Handlers are described above. See the domain implementation details for more spesific use cases.
+The role of Event Handlers are described above. See the domain implementation details for more spesific use cases. 
+
+In EasyEventStore I chose to just call the EventDispatcher directly when saving events in the in-memory EventStore. In real world applications we might defer this to some other mechanism, making our system eventually consistent. 
+
+#EventDispatcher and EventHandlerFactory
+These work similarly to the CommandDispatcher and CommandHandlerFactory, however an event can have 0 to many handlers as opposed to only one handler for a command.
 
 ##Testing
 Messages can be seen as contract between the application and the outside world. A kind of interface. Using this concept, the entire write system can be modeled as `f(events,command) => event(s)`. This can be leveraged to achieve the following:

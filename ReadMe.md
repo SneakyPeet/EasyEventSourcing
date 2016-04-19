@@ -9,11 +9,11 @@ Disclaimer: Although I have experienced the beauty of CQRS and DDD in production
 
 ##A Very Simple Overview of Event Sourcing
 
-Event Sourcing is **Command Query Responsibility Separation (CQRS)**, with the added benefit of no data loss. 
+Event Sourcing is **Command Query Responsibility Segregation (CQRS)**, with the added benefit of no data loss. 
 
 **Command**
 
-Our Audit Log becomes a first class citizen. We store a history of things that happened in our application instead of state (as you would in a traditional database). We store this history as events. To change our system, we take these events, replay them to build up state, apply some command to this state to generate new events. `Events + Command = Event`.
+Our Audit Log becomes a first class citizen. We store a history of things that happened in our application instead of state (as you would in a traditional database). We store this history as events. To change our system, we take these events, replay them to build up state, apply some command to this state to generate new events. `Events + Command = Event(s)`.
 
 **Query**
 
@@ -36,7 +36,7 @@ Here is the typical flow through the application.
 6. The CommandHandler will call the relevant method on the Aggregate to execute the business logic. The Aggregate will then create the relevant **Events** and apply the state change.
 7. The CommandHandler then asks the Repository to save the Aggregate. The Repository asks the Aggregate for the newly created Events and provides them to the EventStore to be persisted.
 
-This concluded writing changes into the app. This entire process is a model of `Events + Command = Events`.
+This concluded writing changes into the app. This entire process is a model of `Events + Command = Event(s)`.
 
 **Query**
 
@@ -67,10 +67,10 @@ I have chosen to implement all messages using F# records. This provides the foll
 Along with the messages, the **Application** is what the outside world interacts with to change our system. Changes to the system are triggered by sending a command to the Application. The following classes live in `EasyEventSourcing.Application`.
 
 ###CommandDispatcher
-The CommandDispatcher is the only entry point into our system. It receives Commands via it's `Send` method. It requires a `CommandHandlerFactory` to provide it with the matching `CommandHandler`. It then passes the Command to the CommandHandler.
+The CommandDispatcher is the only entry point into our system. It receives Commands via its `Send` method. It requires a `CommandHandlerFactory` to provide it with the matching `CommandHandler`. It then passes the Command to the CommandHandler.
 
 ###CommandHandlerFactory
-The CommandHandlerFactory resolves `CommandHandlers` based on the type of the command. In this implementation I have chosen not to rely on a typical dependency injection container for resolving dependencies, like Castle Windsor, but to implement my own command handler resolver. The CommandHandlerFactory has at it's hart a dictionary with Command Type as Key, and as values factory functions that create the CommandHandlers. In EasyEventSourcing there is a single instance of the EventStore and everything else is short lived (transient). The EventStore instance is passed to the CommandHandlerFactory as a dependency. This allows for easy mocking of the EventStore during testing.
+The CommandHandlerFactory resolves `CommandHandlers` based on the type of the command. In this implementation I have chosen not to rely on a typical dependency injection container for resolving dependencies, like Castle Windsor, but to implement my own command handler resolver. The CommandHandlerFactory has at its heart a dictionary with Command Type as Key, and as values factory functions that create the CommandHandlers. In EasyEventSourcing there is a single instance of the EventStore and everything else is short lived (transient). The EventStore instance is passed to the CommandHandlerFactory as a dependency. This allows for easy mocking of the EventStore during testing.
 
 ##Domain
 ###CommandHandlers
@@ -93,7 +93,7 @@ Both aggregates and sagas inherit from the abstract **EventStream** class. The E
 
 **State from Command:** When an aggregate is asked to perform some action it will
 
-1. Validate it's inputs
+1. Validate its inputs
 2. If inputs are valid it will create an Event associated with the state change
 3. The Event is passed to the ApplyChanges method. This method adds the event to the list of changes then calls the Apply method.
 4. The apply method resolves the relevant applier method for the event type and passes the event on
@@ -184,7 +184,7 @@ A simple store domain was chosen as everyone is familiar with it. Rules where ch
 
 ###Customer Details
 
-We want to add the Shipping address to the customer if it does not exist. Thinking traditionally one would want to put this on the customer Aggregate. However keeping a list of shipping addresses is mainly there to provide convenience to the customer (it's bad ux to have them fill out the same address constantly)  and we are not really working with addresses seperatly as logic. Therefore we just build a read model containing all the customer addresses. This is a fundamental difference from traditional thinking. The aggregate state should only care about the business logic and properties not relating to the business logic should not be contained in the aggregate.  An aggregate will have not public methods, only public functions that execute logic. However the data is not lost as we keep all history inside our events. Thus we can build up read models separatly from write models. Boom CQRS. 
+We want to add the Shipping address to the customer if it does not exist. Thinking traditionally one would want to put this on the customer Aggregate. However keeping a list of shipping addresses is mainly there to provide convenience to the customer (it is bad ux to have them fill out the same address constantly)  and we are not really working with addresses seperatly as logic. Therefore we just build a read model containing all the customer addresses. This is a fundamental difference from traditional thinking. The aggregate state should only care about the business logic and properties not relating to the business logic should not be contained in the aggregate.  An aggregate will have not public methods, only public functions that execute logic. However the data is not lost as we keep all history inside our events. Thus we can build up read models separatly from write models. Boom CQRS. 
 
 ##Read Models
 In this example the read models will simply be in-memory objects that keep state. The concepts however can be easily scaled to more appropriate datastore implementations.

@@ -42,7 +42,7 @@ namespace EasyEventSourcing.Tests.Domain.Helpers
             this.app.Send<T>(command);
         }
 
-        protected void Then(IEnumerable<IEvent> expectedEvents)
+        protected void Then(params IEvent[] expectedEvents)
         {
             this.eventStore.NewEvents().Should()
                       .Not.Be.Empty()
@@ -56,10 +56,10 @@ namespace EasyEventSourcing.Tests.Domain.Helpers
                 .Be.Empty();
         }
 
-        protected void Throw<TException>(IEnumerable<IEvent> expectedEvents) where TException : Exception
+        protected void ThrowsWhen<TException,T>(T command) where TException : Exception where T :ICommand
         {
             Assert.Throws<TException>(
-                () => this.Then(expectedEvents)
+                () => this.When(command)
             );
         }
 

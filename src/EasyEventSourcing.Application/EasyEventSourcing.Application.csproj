@@ -48,6 +48,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EasyEventSourcing.Data\EasyEventSourcing.Data.csproj">
+      <Project>{daacafa5-5bf5-497a-a570-1f8c010a7ec7}</Project>
+      <Name>EasyEventSourcing.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasyEventSourcing.Domain\EasyEventSourcing.Domain.csproj">
       <Project>{1c4da1ca-9d9e-4a3d-b9e3-4c11b98df82e}</Project>
       <Name>EasyEventSourcing.Domain</Name>
@@ -55,10 +59,6 @@
     <ProjectReference Include="..\EasyEventSourcing.EventSourcing\EasyEventSourcing.EventSourcing.csproj">
       <Project>{6f93c10f-dcbf-454d-91f2-6cd521dedd9b}</Project>
       <Name>EasyEventSourcing.EventSourcing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasyEventSourcing.EventStore.InMemory\EasyEventSourcing.EventStore.InMemory.csproj">
-      <Project>{633795e7-d981-415b-971d-c7cb4a472149}</Project>
-      <Name>EasyEventSourcing.EventStore.InMemory</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasyEventSourcing.Messages\EasyEventSourcing.Messages.fsproj">
       <Project>{674d8243-e359-4931-bd0d-789ec3526e92}</Project>

@@ -1,4 +1,4 @@
-﻿using EasyEventSourcing.EventStore.InMemory;
+﻿using EasyEventSourcing.Data;
 
 namespace EasyEventSourcing.Application
 {

@@ -54,10 +54,6 @@
       <Project>{fd79f067-cb36-4375-99a1-2a1a134186ac}</Project>
       <Name>EasyEventSourcing.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EasyEventSourcing.EventStore.InMemory\EasyEventSourcing.EventStore.InMemory.csproj">
-      <Project>{633795e7-d981-415b-971d-c7cb4a472149}</Project>
-      <Name>EasyEventSourcing.EventStore.InMemory</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EasyEventSourcing.Messages\EasyEventSourcing.Messages.fsproj">
       <Project>{674d8243-e359-4931-bd0d-789ec3526e92}</Project>
       <Name>EasyEventSourcing.Messages</Name>

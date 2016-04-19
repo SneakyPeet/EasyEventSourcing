@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EasyEventSourcing.EventStore.InMemory")]
+[assembly: AssemblyTitle("EasyEventSourcing.Data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("EasyEventSourcing.EventStore.InMemory")]
+[assembly: AssemblyProduct("EasyEventSourcing.Data")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("633795e7-d981-415b-971d-c7cb4a472149")]
+[assembly: Guid("daacafa5-5bf5-497a-a570-1f8c010a7ec7")]
 
 // Version information for an assembly consists of the following four values:
 //

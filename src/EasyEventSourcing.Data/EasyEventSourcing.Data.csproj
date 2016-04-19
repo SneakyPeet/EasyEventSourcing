@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{633795E7-D981-415B-971D-C7CB4A472149}</ProjectGuid>
+    <ProjectGuid>{DAACAFA5-5BF5-497A-A570-1F8C010A7EC7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasyEventSourcing.EventStore.InMemory</RootNamespace>
-    <AssemblyName>EasyEventSourcing.EventStore.InMemory</AssemblyName>
+    <RootNamespace>EasyEventSourcing.Data</RootNamespace>
+    <AssemblyName>EasyEventSourcing.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

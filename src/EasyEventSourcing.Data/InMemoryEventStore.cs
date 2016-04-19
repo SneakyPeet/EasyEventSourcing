@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using EasyEventSourcing.EventSourcing;
 using EasyEventSourcing.Messages;
 
-namespace EasyEventSourcing.EventStore.InMemory
+namespace EasyEventSourcing.Data
 {
     public class InMemoryEventStore : IEventStore
     {

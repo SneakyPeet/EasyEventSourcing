@@ -1,23 +1,14 @@
 ﻿using System;
 using SimpleEventSourcing.EventSourcing;
-using SimpleEventSourcing.Messages.ShoppingCart;
+using SimpleEventSourcing.Messages.Store;
 
-namespace SimpleEventSourcing.Domain.ShoppingCart
+namespace SimpleEventSourcing.Domain.Store
 {
     public class ShoppingCart : Aggregate
     {
-
-        public override string Name
-        {
-            get
-            {
-                return "ShoppingCart";
-            }
-        }
-
         protected override void RegisterAppliers()
         {
-            RegisterApplier<CartCreated>((e) => Apply(e));
+            RegisterApplier<CartCreated>(this.Apply);
         }
 
         private ShoppingCart(Guid cartId, Guid customerId)

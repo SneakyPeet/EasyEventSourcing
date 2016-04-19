@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using SharpTestsEx;
 using SimpleEventSourcing.EventSourcing;
@@ -18,15 +19,21 @@ namespace SimpleEventSourcing.Tests.Domain.Helpers
             var commandHandlerFactory = new CommandHandlerFactory(eventStore);
             app = new CommandDispatcher(commandHandlerFactory);
         }
-        
-        protected void And<T>(T command) where T : ICommand
+
+        protected void And<TEventStream, TEvent>(Guid id, TEvent evt)
+            where TEvent : IEvent
+            where TEventStream : EventStream, new()
         {
-            Given<T>(command);
+            Given<TEventStream, TEvent>(id, evt);
         }
 
-        protected void Given<T>(T command) where T : ICommand
+        protected void Given<TEventStream, TEvent>(Guid id, TEvent evt) 
+                                                    where TEvent : IEvent
+                                                    where TEventStream : EventStream
         {
-            this.app.Send<T>(command);
+            var streamIdentifier = new StreamIdentifier(typeof(TEventStream).Name, id);
+            var eventStoreStream = new EventStoreStream(streamIdentifier, new List<IEvent>{evt});
+            this.eventStore.Save(new List<EventStoreStream>{eventStoreStream});
             this.eventStore.CommitInitialEvents();
         }
 
@@ -47,6 +54,13 @@ namespace SimpleEventSourcing.Tests.Domain.Helpers
         {
             this.eventStore.NewEvents().Should()
                 .Be.Empty();
+        }
+
+        protected void Throw<TException>(IEnumerable<IEvent> expectedEvents) where TException : Exception
+        {
+            Assert.Throws<TException>(
+                () => Then(expectedEvents)
+            );
         }
 
         [TearDown]

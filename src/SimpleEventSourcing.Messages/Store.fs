@@ -1,4 +1,4 @@
-﻿namespace SimpleEventSourcing.Messages.ShoppingCart
+﻿namespace SimpleEventSourcing.Messages.Store
 
 open System
 open SimpleEventSourcing.Messages

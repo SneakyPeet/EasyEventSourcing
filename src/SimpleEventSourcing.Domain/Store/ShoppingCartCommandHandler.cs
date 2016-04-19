@@ -1,8 +1,8 @@
-﻿using SimpleEventSourcing.Messages.ShoppingCart;
+﻿using SimpleEventSourcing.Messages.Store;
 using SimpleEventSourcing.EventSourcing;
 using System;
 
-namespace SimpleEventSourcing.Domain.ShoppingCart
+namespace SimpleEventSourcing.Domain.Store
 {
     public class ShoppingCartCommandHandler : ICommandHandler<CreateNewCart>
     {

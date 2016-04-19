@@ -46,7 +46,7 @@
     <Compile Include="AssemblyInfo.fs" />
     <None Include="Script.fsx" />
     <Compile Include="Messages.fs" />
-    <Compile Include="ShoppingCart.fs" />
+    <Compile Include="Store.fs" />
     <Compile Include="Orders.fs" />
     <Compile Include="Shipping.fs" />
   </ItemGroup>

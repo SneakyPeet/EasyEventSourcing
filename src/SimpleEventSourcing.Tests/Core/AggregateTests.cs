@@ -21,7 +21,7 @@ namespace SimpleEventSourcing.Tests.Core
         [Test]
         public void AggregateNameShouldEqualTheConcreteImplementationClassName()
         {
-            Assert.AreEqual("Test", this.aggregate.Name);
+            Assert.AreEqual("TestAggregate", this.aggregate.Name);
         }
 
         [Test]

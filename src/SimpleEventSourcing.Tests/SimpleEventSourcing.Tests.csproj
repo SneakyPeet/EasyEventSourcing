@@ -73,7 +73,7 @@
     <Compile Include="Domain\Helpers\Spesification.cs" />
     <Compile Include="Domain\Helpers\TestEventStore.cs" />
     <Compile Include="Domain\Helpers\TestExtensions.cs" />
-    <Compile Include="Domain\ShoppingCart\ShoppingCartTests.cs" />
+    <Compile Include="Domain\Store\ShoppingCartTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

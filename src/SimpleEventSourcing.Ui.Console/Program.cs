@@ -1,5 +1,5 @@
 ﻿using SimpleEventSourcing.Application;
-using SimpleEventSourcing.Messages.ShoppingCart;
+using SimpleEventSourcing.Messages.Store;
 using System;
 namespace SimpleEventSourcing.Ui.Console
 {

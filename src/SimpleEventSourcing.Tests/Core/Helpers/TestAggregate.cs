@@ -10,7 +10,6 @@ namespace SimpleEventSourcing.Tests.Core.Helpers
             this.Validation = false;
             this.StateUpdated = false;
         }
-        public override string Name { get { return "Test"; } }
 
         protected override void RegisterAppliers()
         {

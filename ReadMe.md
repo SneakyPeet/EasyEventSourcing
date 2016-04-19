@@ -124,6 +124,15 @@ This is a helper class holding a stream id and the related events.
 
 The role of event handlers are described above. See the domain implementation details for more spesific use cases.
 
+##Testing
+Messages can be seen as contract between your application and the outside world. A kind of interface. Using this to our advantage we can again model our entire write system as `f(events,command) => event(s)`. This can be leveraged to achieve the following:
+
+*	Given Events
+*	When Command
+*	Then Events Or Throws Exception 
+
+By mocking our EventStore and using the CommandDispatcher as test entry point, we can easily write tests that follow `f(events,command) => event(s)` and are implementation unaware. This makes our tests robust as they only change when the rules change, not when the implementation changes.
+
 #Domain
 ##Rules
 ###Shopping Cart

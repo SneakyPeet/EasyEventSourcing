@@ -1,6 +1,6 @@
 ﻿using SimpleEventSourcing.Messages;
-using SimpleEventSourcing.Messages.ShoppingCart;
-using SimpleEventSourcing.Domain.ShoppingCart;
+using SimpleEventSourcing.Messages.Store;
+using SimpleEventSourcing.Domain.Store;
 using SimpleEventSourcing.EventSourcing;
 using SimpleEventSourcing.EventStore.InMemory;
 

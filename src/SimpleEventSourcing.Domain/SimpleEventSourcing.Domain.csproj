@@ -40,8 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ShoppingCart\ShoppingCart.cs" />
-    <Compile Include="ShoppingCart\ShoppingCartCommandHandler.cs" />
+    <Compile Include="Store\ShoppingCart.cs" />
+    <Compile Include="Store\ShoppingCartCommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

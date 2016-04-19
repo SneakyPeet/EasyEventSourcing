@@ -24,8 +24,9 @@ namespace SimpleEventSourcing.EventSourcing
             eventAppliers.Add(typeof(TEvent), (x) => applier((TEvent)x));
         }
 
-        public abstract string Name { get; }
         protected Guid id { get; set; }
+
+        public string Name { get { return this.GetType().Name; } }
 
         protected void ApplyChanges(IEvent evt)
         {

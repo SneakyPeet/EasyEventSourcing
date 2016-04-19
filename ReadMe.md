@@ -17,6 +17,8 @@ Our Audit Log becomes a first class citizen. We store a history of things that h
 
 We take events, replay them to build up state in appropriate read models that are optimized for our queries.
 
+![Overview](Overview.PNG)
+
 ##A Detailed Overview of the System
 
 Here is the typical flow through the application.

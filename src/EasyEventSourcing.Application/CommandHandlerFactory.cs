@@ -16,9 +16,17 @@ namespace EasyEventSourcing.Application
         {
             Func<IRepository> newTransientRepo = () => new Repository(eventStore);
 
-            Func<ShoppingCartHandler> newTransientShoppingCartHandler = () => new ShoppingCartHandler(newTransientRepo());
-            this.handlers.Add(typeof(CreateNewCart), newTransientShoppingCartHandler);
-            this.handlers.Add(typeof(AddProductToCart), newTransientShoppingCartHandler);
+            RegisterTypesWithHandler(
+                () => new ShoppingCartHandler(newTransientRepo()),
+                typeof(CreateNewCart), typeof(AddProductToCart), typeof(RemoveProductFromCart), typeof(EmptyCart), typeof(Checkout));
+        }
+
+        private void RegisterTypesWithHandler(Func<IHandler> handler, params Type[] types)
+        {
+            foreach(var type in types)
+            {
+                this.handlers.Add(type, handler);
+            }
         }
 
         public ICommandHandler<TCommand> Resolve<TCommand>() where TCommand : ICommand

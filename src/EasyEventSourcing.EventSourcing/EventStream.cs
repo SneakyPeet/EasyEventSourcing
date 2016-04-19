@@ -70,5 +70,7 @@ namespace EasyEventSourcing.EventSourcing
         {
             this.changes.Clear();
         }
+
+        protected void NoStateChange<T>(T evt) where T : IEvent { }
     }
 }

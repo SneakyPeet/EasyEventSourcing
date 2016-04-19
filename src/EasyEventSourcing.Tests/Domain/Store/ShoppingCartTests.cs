@@ -33,7 +33,7 @@ namespace EasyEventSourcing.Tests.Domain.Store
         public void RemovingAProduct()
         {
             this.Given<ShoppingCart, CartCreated>(this.cartId, new CartCreated(this.cartId, this.clientId));
-            this.Given<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.productId, productPrice));
+            this.And<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.productId, productPrice));
             this.When(new RemoveProductFromCart(this.cartId, this.productId));
             this.Then(new ProductRemovedFromCart(this.productId));
         }
@@ -42,8 +42,8 @@ namespace EasyEventSourcing.Tests.Domain.Store
         public void EmptyCart()
         {
             this.Given<ShoppingCart, CartCreated>(this.cartId, new CartCreated(this.cartId, this.clientId));
-            this.Given<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.productId, productPrice));
-            this.Given<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(Guid.NewGuid(), productPrice));
+            this.And<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.productId, productPrice));
+            this.And<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(Guid.NewGuid(), productPrice));
             this.When(new EmptyCart(this.cartId));
             this.Then(new CartEmptied());
         }
@@ -52,7 +52,7 @@ namespace EasyEventSourcing.Tests.Domain.Store
         public void CheckingOut()
         {
             this.Given<ShoppingCart, CartCreated>(this.cartId, new CartCreated(this.cartId, this.clientId));
-            this.Given<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.productId, productPrice));
+            this.And<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.productId, productPrice));
             this.When(new Checkout(this.cartId));
             this.Then(
                 new CartCheckedOut(),

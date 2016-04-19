@@ -165,7 +165,7 @@ A simple store domain was chosen as everyone is familiar with it. Rules where ch
 
 ##Implementation Details
 
-###Shopping Cart
+###Shopping Cart (started)
 
 * When sending a command to the shopping cart, 
 * the read model is checked to see if a cart exists. If a cart does not exist, we create one.
@@ -174,23 +174,23 @@ A simple store domain was chosen as everyone is familiar with it. Rules where ch
 * When checking out, the shopping cart returns an Order aggregate. 
 * Finally the cart is removed from the read model as it no longer exists.
 
-###Orders
+###Orders (todo)
 
 * Orders are created when checking out a cart.
 * Orders need to be paid for and be provided with a shipping address.
 * Orders are completed once the packages are shipped
 
-###Shipping
+###Shipping (todo)
 
 * A shipping instruction is created when an order has been paid for and a shipping address has been provided.
 * The shipping logic is implemented by using a saga as a state machine. The saga is generated from the OrderCreated Event. Once the saga has all the detail it needs, it will generate the shipping instruction as a command and send it to the relevant CommandHandler.
 * We will assume a shipping instruction equates to a delivered package and mark our Order as complete.
 
-###Customer Details
+###Customer Details (todo)
 
 We want to add the Shipping address to the customer if it does not exist. Thinking traditionally one would want to put this on the customer Aggregate. However keeping a list of shipping addresses is mainly there to provide convenience to the customer (it is bad ux to have them fill out the same address constantly)  and we are not really working with addresses seperatly as logic. Therefore we just build a read model containing all the customer addresses. This is a fundamental difference from traditional thinking. The aggregate state should only care about the business logic and properties not relating to the business logic should not be contained in the aggregate.  An aggregate will not have any public properties, only public methods that execute logic. However the data is not lost as we keep all history inside our events. Thus we can build up read models separatly from write models. Boom CQRS. 
 
-##Read Models
+##Read Models (todo)
 In this example the read models will simply be in-memory objects that keep state. The concepts however can be easily scaled to more appropriate datastore implementations.
 
 #Other Areas Not Yet Explored
@@ -198,3 +198,6 @@ In this example the read models will simply be in-memory objects that keep state
 * **Snapshots** - Used to save state when there are many events in a stream
 * **Saving Commandse** - Gives the ability to replay all actions against a changed domain and compare the differences. Also acts as a log.
 * **But Who Sent The Command?** - Logging user info as meta data with the command
+* **Testing** - `f(Events,Command) => Event(s)` testing is great, but is it enough? I don't think so
+* **Default Constructor Dependency** - I hate the default constructor dependency needed to build Aggregates and Sagas in the IRepository. I am not sure how to remove it :(
+* **Reuse Boilerplate per Bounded Context** - That means each bounded context gets bundled in it's own application. improves scalability per Context as well as Mobility.

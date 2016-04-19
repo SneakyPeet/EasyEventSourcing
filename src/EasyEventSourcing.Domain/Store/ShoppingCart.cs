@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using EasyEventSourcing.EventSourcing;
+using EasyEventSourcing.Messages.Orders;
 using EasyEventSourcing.Messages.Store;
+using System.Linq;
 
 namespace EasyEventSourcing.Domain.Store
 {
@@ -10,7 +12,9 @@ namespace EasyEventSourcing.Domain.Store
         public ShoppingCart() {}
 
         private readonly Dictionary<Guid, Decimal> products = new Dictionary<Guid, decimal>();
-        
+        private bool checkedOut;
+        private Guid clientId;
+
         private ShoppingCart(Guid cartId, Guid customerId)
         {
             this.ApplyChanges(new CartCreated(cartId, customerId));
@@ -20,6 +24,9 @@ namespace EasyEventSourcing.Domain.Store
         {
             this.RegisterApplier<CartCreated>(this.Apply);
             this.RegisterApplier<ProductAddedToCart>(this.Apply);
+            this.RegisterApplier<ProductRemovedFromCart>(this.Apply);
+            this.RegisterApplier<CartEmptied>(this.Apply);
+            this.RegisterApplier<CartCheckedOut>(this.NoStateChange);
         }
 
         public static ShoppingCart Create(Guid cartId, Guid customerId)
@@ -30,6 +37,7 @@ namespace EasyEventSourcing.Domain.Store
         private void Apply(CartCreated evt)
         {
             this.id = evt.CartId;
+            this.clientId = evt.ClientId;
         }
 
         public void AddProduct(Guid productId, decimal price)
@@ -43,6 +51,35 @@ namespace EasyEventSourcing.Domain.Store
         private void Apply(ProductAddedToCart evt)
         {
             products.Add(evt.ProductId, evt.Price);
+        }
+
+        public void RemoveProduct(Guid productId)
+        {
+            if(products.ContainsKey(productId))
+            {
+                this.ApplyChanges(new ProductRemovedFromCart(productId));
+            }
+        }
+
+        private void Apply(ProductRemovedFromCart evt)
+        {
+            products.Remove(evt.ProductId);
+        }
+
+        public void Empty()
+        {
+            this.ApplyChanges(new CartEmptied());
+        }
+
+        private void Apply(CartEmptied evt)
+        {
+            products.Clear();
+        }
+
+        public EventStream Checkout()
+        {
+            this.ApplyChanges(new CartCheckedOut());
+            return Order.Create(this.id, this.clientId, this.products.Select(x => new OrderItem(x.Key, x.Value)));
         }
     }
 }

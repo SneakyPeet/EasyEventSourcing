@@ -11,7 +11,12 @@ namespace EasyEventSourcing.Domain.Store
     {
         protected override void RegisterAppliers()
         {
-            RegisterApplier<OrderCreated>(this.NoStateChange);
+            RegisterApplier<OrderCreated>(this.Apply);
+        }
+
+        public static Order Create(Guid orderId, Guid clientId, IEnumerable<OrderItem> items)
+        {
+            return new Order(orderId, clientId, items);
         }
 
         private Order(Guid orderId, Guid clientId, IEnumerable<OrderItem> items)
@@ -19,9 +24,9 @@ namespace EasyEventSourcing.Domain.Store
             ApplyChanges(new OrderCreated(orderId, clientId, items.ToArray()));
         }
 
-        public static Order Create(Guid orderId, Guid clientId, IEnumerable<OrderItem> items)
+        private void Apply(OrderCreated evt)
         {
-            return new Order(orderId, clientId, items);
+            this.id = evt.OrderId;
         }
     }
 }

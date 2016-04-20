@@ -17,7 +17,7 @@ namespace EasyEventSourcing.EventSourcing.Handlers
 
         protected abstract void RegisterHandlers();
         
-        public void Handle(IEvent evt)
+        public void HandleEvent(IEvent evt)
         {
             var evtType = evt.GetType();
             if (!this.handlers.ContainsKey(evtType))

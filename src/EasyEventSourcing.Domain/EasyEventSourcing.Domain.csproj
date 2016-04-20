@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Store\CannotCheckoutEmptyCartException.cs" />
+    <Compile Include="Store\CartAlreadyCheckedOutException.cs" />
     <Compile Include="Store\Order.cs" />
     <Compile Include="Store\ShoppingCart.cs" />
     <Compile Include="Store\ShoppingCartHandler.cs" />

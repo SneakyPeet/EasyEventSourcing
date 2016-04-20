@@ -64,11 +64,31 @@ namespace EasyEventSourcing.Tests.Domain.Store
         }
 
         [Test]
-        public void NoCart()
+        public void CannotCheckoutEmptyCart()
         {
-            Assert.Throws<Exception>(
-                () => this.When(new AddProductToCart(this.cartId, this.productId, productPrice))
-            );
+            this.GivenNewCart();
+            this.ThrowsWhen<CannotCheckoutEmptyCartException,Checkout>(new Checkout(this.cartId));
+        }
+
+        [Test]
+        public void CannotAddToCheckedoutCart()
+        {
+            this.GivenCheckedOutCart();
+            this.ThrowsWhen<CartAlreadyCheckedOutException, AddProductToCart>(new AddProductToCart(this.cartId, this.productId, productPrice));
+        }
+
+        [Test]
+        public void CannotRemoveFromCheckedoutCart()
+        {
+            this.GivenCheckedOutCart();
+            this.ThrowsWhen<CartAlreadyCheckedOutException, RemoveProductFromCart>(new RemoveProductFromCart(this.cartId, this.productId));
+        }
+
+        [Test]
+        public void CannotEmptyCheckedoutCart()
+        {
+            this.GivenCheckedOutCart();
+            this.ThrowsWhen<CartAlreadyCheckedOutException, EmptyCart>(new EmptyCart(this.cartId));
         }
 
         private void GivenNewCart()
@@ -79,6 +99,13 @@ namespace EasyEventSourcing.Tests.Domain.Store
         private void AndAddedProduct()
         {
             this.And<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.cartId, this.productId, productPrice));
+        }
+
+        private void GivenCheckedOutCart()
+        {
+            this.GivenNewCart();
+            this.AndAddedProduct();
+            this.And<ShoppingCart, CartCheckedOut>(this.cartId, new CartCheckedOut(this.cartId));
         }
     }
 

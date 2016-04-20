@@ -11,6 +11,15 @@ namespace EasyEventSourcing.Domain.Store
     {
         public ShoppingCart() {}
 
+        protected override void RegisterAppliers()
+        {
+            this.RegisterApplier<CartCreated>(this.Apply);
+            this.RegisterApplier<ProductAddedToCart>(this.Apply);
+            this.RegisterApplier<ProductRemovedFromCart>(this.Apply);
+            this.RegisterApplier<CartEmptied>(this.Apply);
+            this.RegisterApplier<CartCheckedOut>(this.Apply);
+        }
+
         private readonly Dictionary<Guid, Decimal> products = new Dictionary<Guid, decimal>();
         private bool checkedOut;
         private Guid clientId;
@@ -18,15 +27,6 @@ namespace EasyEventSourcing.Domain.Store
         private ShoppingCart(Guid cartId, Guid customerId)
         {
             this.ApplyChanges(new CartCreated(cartId, customerId));
-        }
-
-        protected override void RegisterAppliers()
-        {
-            this.RegisterApplier<CartCreated>(this.Apply);
-            this.RegisterApplier<ProductAddedToCart>(this.Apply);
-            this.RegisterApplier<ProductRemovedFromCart>(this.Apply);
-            this.RegisterApplier<CartEmptied>(this.Apply);
-            this.RegisterApplier<CartCheckedOut>(this.NoStateChange);
         }
 
         public static ShoppingCart Create(Guid cartId, Guid customerId)
@@ -42,6 +42,10 @@ namespace EasyEventSourcing.Domain.Store
 
         public void AddProduct(Guid productId, decimal price)
         {
+            if(checkedOut)
+            {
+                throw new CartAlreadyCheckedOutException();
+            }
             if (!products.ContainsKey(productId))
             {
                 this.ApplyChanges(new ProductAddedToCart(this.id, productId, price));
@@ -55,6 +59,10 @@ namespace EasyEventSourcing.Domain.Store
 
         public void RemoveProduct(Guid productId)
         {
+            if (checkedOut)
+            {
+                throw new CartAlreadyCheckedOutException();
+            }
             if(products.ContainsKey(productId))
             {
                 this.ApplyChanges(new ProductRemovedFromCart(this.id, productId));
@@ -68,6 +76,10 @@ namespace EasyEventSourcing.Domain.Store
 
         public void Empty()
         {
+            if (checkedOut)
+            {
+                throw new CartAlreadyCheckedOutException();
+            }
             this.ApplyChanges(new CartEmptied(this.id));
         }
 
@@ -78,8 +90,17 @@ namespace EasyEventSourcing.Domain.Store
 
         public EventStream Checkout()
         {
+            if(this.products.Count == 0)
+            {
+                throw new CannotCheckoutEmptyCartException();
+            }
             this.ApplyChanges(new CartCheckedOut(this.id));
             return Order.Create(this.id, this.clientId, this.products.Select(x => new OrderItem(x.Key, x.Value)));
+        }
+
+        private void Apply(CartCheckedOut evt)
+        {
+            this.checkedOut = true;
         }
     }
 }

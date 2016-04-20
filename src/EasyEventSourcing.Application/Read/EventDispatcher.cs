@@ -16,7 +16,7 @@ namespace EasyEventSourcing.Application.Read
             var handlers = this.factory.Resolve(evt);
             foreach (var eventHandler in handlers)
             {
-                eventHandler.Handle(evt);
+                eventHandler.HandleEvent(evt);
             }
         }
     }

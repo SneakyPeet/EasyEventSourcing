@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\DomainException.cs" />
+    <Compile Include="Exceptions\EventStreamNotFoundException.cs" />
     <Compile Include="Handlers\ICommandDispatcher.cs" />
     <Compile Include="Handlers\IEventDispatcher.cs" />
     <Compile Include="Persistence\EventStoreStream.cs" />

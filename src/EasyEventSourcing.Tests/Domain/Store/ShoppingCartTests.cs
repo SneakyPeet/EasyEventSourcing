@@ -24,38 +24,38 @@ namespace EasyEventSourcing.Tests.Domain.Store
         [Test]
         public void AddingAProduct()
         {
-            this.Given<ShoppingCart, CartCreated>(this.cartId, new CartCreated(this.cartId, this.clientId));
+            this.GivenNewCart();
             this.When(new AddProductToCart(this.cartId, this.productId, productPrice));
-            this.Then(new ProductAddedToCart(this.productId, productPrice));
+            this.Then(new ProductAddedToCart(this.cartId, this.productId, productPrice));
         }
 
         [Test]
         public void RemovingAProduct()
         {
-            this.Given<ShoppingCart, CartCreated>(this.cartId, new CartCreated(this.cartId, this.clientId));
-            this.And<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.productId, productPrice));
+            this.GivenNewCart();
+            this.AndAddedProduct();
             this.When(new RemoveProductFromCart(this.cartId, this.productId));
-            this.Then(new ProductRemovedFromCart(this.productId));
+            this.Then(new ProductRemovedFromCart(this.cartId, this.productId));
         }
 
         [Test]
         public void EmptyCart()
         {
-            this.Given<ShoppingCart, CartCreated>(this.cartId, new CartCreated(this.cartId, this.clientId));
-            this.And<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.productId, productPrice));
-            this.And<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(Guid.NewGuid(), productPrice));
+            this.GivenNewCart();
+            this.AndAddedProduct();
+            this.And<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.cartId, Guid.NewGuid(), productPrice));
             this.When(new EmptyCart(this.cartId));
-            this.Then(new CartEmptied());
+            this.Then(new CartEmptied(this.cartId));
         }
 
         [Test]
         public void CheckingOut()
         {
-            this.Given<ShoppingCart, CartCreated>(this.cartId, new CartCreated(this.cartId, this.clientId));
-            this.And<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.productId, productPrice));
+            this.GivenNewCart();
+            this.AndAddedProduct();
             this.When(new Checkout(this.cartId));
             this.Then(
-                new CartCheckedOut(),
+                new CartCheckedOut(this.cartId),
                 new OrderCreated(this.cartId, this.clientId, new []
                                                                  {
                                                                      new OrderItem(this.productId,productPrice)
@@ -66,8 +66,19 @@ namespace EasyEventSourcing.Tests.Domain.Store
         [Test]
         public void NoCart()
         {
-            this.When(new AddProductToCart(this.cartId, this.productId, productPrice));
-            this.ThrowsWhen<Exception, AddProductToCart>(new AddProductToCart(this.cartId, this.productId, productPrice));
+            Assert.Throws<Exception>(
+                () => this.When(new AddProductToCart(this.cartId, this.productId, productPrice))
+            );
+        }
+
+        private void GivenNewCart()
+        {
+            this.Given<ShoppingCart, CartCreated>(this.cartId, new CartCreated(this.cartId, this.clientId));
+        }
+
+        private void AndAddedProduct()
+        {
+            this.And<ShoppingCart, ProductAddedToCart>(this.cartId, new ProductAddedToCart(this.cartId, this.productId, productPrice));
         }
     }
 

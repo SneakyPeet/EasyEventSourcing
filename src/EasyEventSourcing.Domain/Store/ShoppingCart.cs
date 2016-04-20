@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using EasyEventSourcing.EventSourcing;
 using EasyEventSourcing.EventSourcing.Domain;
 using EasyEventSourcing.Messages.Orders;
 using EasyEventSourcing.Messages.Store;
@@ -45,7 +44,7 @@ namespace EasyEventSourcing.Domain.Store
         {
             if (!products.ContainsKey(productId))
             {
-                this.ApplyChanges(new ProductAddedToCart(productId, price));
+                this.ApplyChanges(new ProductAddedToCart(this.id, productId, price));
             }
         }
 
@@ -58,7 +57,7 @@ namespace EasyEventSourcing.Domain.Store
         {
             if(products.ContainsKey(productId))
             {
-                this.ApplyChanges(new ProductRemovedFromCart(productId));
+                this.ApplyChanges(new ProductRemovedFromCart(this.id, productId));
             }
         }
 
@@ -69,7 +68,7 @@ namespace EasyEventSourcing.Domain.Store
 
         public void Empty()
         {
-            this.ApplyChanges(new CartEmptied());
+            this.ApplyChanges(new CartEmptied(this.id));
         }
 
         private void Apply(CartEmptied evt)
@@ -79,7 +78,7 @@ namespace EasyEventSourcing.Domain.Store
 
         public EventStream Checkout()
         {
-            this.ApplyChanges(new CartCheckedOut());
+            this.ApplyChanges(new CartCheckedOut(this.id));
             return Order.Create(this.id, this.clientId, this.products.Select(x => new OrderItem(x.Key, x.Value)));
         }
     }

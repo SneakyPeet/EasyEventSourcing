@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using EasyEventSourcing.EventSourcing;
+﻿using System.Collections.Generic;
 using EasyEventSourcing.EventSourcing.Domain;
+using EasyEventSourcing.EventSourcing.Exceptions;
 using EasyEventSourcing.EventSourcing.Handlers;
 using EasyEventSourcing.EventSourcing.Persistence;
 using EasyEventSourcing.Messages;
@@ -12,6 +11,8 @@ namespace EasyEventSourcing.Data
     {
         private readonly IEventDispatcher dispatcher;
 
+        private readonly Dictionary<string, List<IEvent>> store = new Dictionary<string, List<IEvent>>();
+
         public InMemoryEventStore(IEventDispatcher dispatcher)
         {
             this.dispatcher = dispatcher;
@@ -19,20 +20,40 @@ namespace EasyEventSourcing.Data
 
         public IEnumerable<IEvent> GetByStreamId(StreamIdentifier streamId)
         {
-            throw new NotImplementedException();
+            if (store.ContainsKey(streamId.Value))
+            {
+                return store[streamId.Value].AsReadOnly();
+            }
+            throw new EventStreamNotFoundException(streamId);
         }
 
         public void Save(List<EventStoreStream> newEvents)
         {
-            foreach(var eventStoreStream in newEvents)
+            foreach (var eventStoreStream in newEvents)
             {
-                foreach (var evt in eventStoreStream.Events)
-                {
-                    dispatcher.Send(evt);
-                }
-                
+                this.PersistEvents(eventStoreStream);
+                this.DispatchEvents(eventStoreStream.Events);
             }
-            throw new NotImplementedException();
+        }
+
+        private void PersistEvents(EventStoreStream eventStoreStream)
+        {
+            if(store.ContainsKey(eventStoreStream.Id))
+            {
+                store[eventStoreStream.Id].AddRange(eventStoreStream.Events);
+            }
+            else
+            {
+                store.Add(eventStoreStream.Id, eventStoreStream.Events);
+            }
+        }
+
+        private void DispatchEvents(IEnumerable<IEvent> newEvents)
+        {
+            foreach (var evt in newEvents)
+            {
+                this.dispatcher.Send(evt); //todo fix
+            }
         }
     }
 }

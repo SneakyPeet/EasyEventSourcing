@@ -20,6 +20,7 @@ type AddProductToCart = {
 } with interface ICommand
 
 type ProductAddedToCart = {
+    CartId: Guid;
     ProductId: Guid;
     Price: Decimal;
 } with interface IEvent
@@ -30,6 +31,7 @@ type RemoveProductFromCart = {
 } with interface ICommand
 
 type ProductRemovedFromCart = {
+    CartId: Guid;
     ProductId: Guid;
 } with interface IEvent
 
@@ -37,10 +39,14 @@ type EmptyCart = {
     CartId: Guid;
 } with interface ICommand
 
-type CartEmptied() = interface IEvent
+type CartEmptied = {
+     CartId: Guid;
+} with interface IEvent
 
 type Checkout = {
     CartId: Guid;
 } with interface ICommand
 
-type CartCheckedOut() = interface IEvent
+type CartCheckedOut = {
+     CartId: Guid;
+} with interface IEvent

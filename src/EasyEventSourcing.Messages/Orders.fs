@@ -8,12 +8,6 @@ type OrderItem = {
     Price: Decimal;
 }
 
-type CreateOrder = {
-    OrderId: Guid;
-    ClientId: Guid;
-    Items: OrderItem[];
-} with interface ICommand
-
 type OrderCreated = {
     OrderId: Guid;
     ClientId: Guid;

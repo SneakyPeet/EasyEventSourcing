@@ -8,13 +8,9 @@ type ShippingItem = {
 }
 
 type ShipOrder = {
-    ClientId: Guid;
     OrderId: Guid;
-    Items: ShippingItem[];
 } with interface ICommand
 
-type OrderShipped = {
-    ClientId: Guid;
+type OrderCompleted = {
     OrderId: Guid;
-    Items: ShippingItem[];
 } with interface IEvent

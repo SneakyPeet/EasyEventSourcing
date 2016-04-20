@@ -165,7 +165,7 @@ A simple store domain was chosen as everyone is familiar with it. Rules where ch
 
 ##Implementation Details
 
-###Shopping Cart (started)
+###Shopping Cart
 
 * When sending a command to the shopping cart, 
 * the read model is checked to see if a cart exists. If a cart does not exist, we create one.
@@ -174,7 +174,7 @@ A simple store domain was chosen as everyone is familiar with it. Rules where ch
 * When checking out, the shopping cart returns an Order aggregate. 
 * Finally the cart is removed from the read model as it no longer exists.
 
-###Orders (todo)
+###Orders
 
 * Orders are created when checking out a cart.
 * Orders need to be paid for and be provided with a shipping address.

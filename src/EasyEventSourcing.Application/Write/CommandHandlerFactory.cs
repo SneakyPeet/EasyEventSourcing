@@ -6,6 +6,8 @@ using EasyEventSourcing.EventSourcing.Handlers;
 using EasyEventSourcing.EventSourcing.Persistence;
 using EasyEventSourcing.Messages;
 using EasyEventSourcing.Messages.Store;
+using EasyEventSourcing.Messages.Orders;
+using EasyEventSourcing.Messages.Shipping;
 
 namespace EasyEventSourcing.Application.Write
 {
@@ -20,6 +22,10 @@ namespace EasyEventSourcing.Application.Write
             this.RegisterHandlerFactoryWithTypes(
                 () => new ShoppingCartHandler(newTransientRepo()),
                 typeof(CreateNewCart), typeof(AddProductToCart), typeof(RemoveProductFromCart), typeof(EmptyCart), typeof(Checkout));
+
+            this.RegisterHandlerFactoryWithTypes(
+                () => new OrderHandler(newTransientRepo()),
+                typeof(PayForOrder), typeof(ConfirmShippingAddress), typeof(ShipOrder));
         }
 
         private void RegisterHandlerFactoryWithTypes(Func<IHandler> handler, params Type[] types)

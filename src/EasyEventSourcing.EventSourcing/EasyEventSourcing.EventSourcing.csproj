@@ -40,19 +40,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventStoreStream.cs" />
+    <Compile Include="Domain\DomainException.cs" />
+    <Compile Include="Handlers\ICommandDispatcher.cs" />
+    <Compile Include="Handlers\IEventDispatcher.cs" />
+    <Compile Include="Persistence\EventStoreStream.cs" />
     <Compile Include="Exceptions\NoCommandHandlerRegisteredException.cs" />
     <Compile Include="Exceptions\NoEventApplyMethodRegisteredException.cs" />
-    <Compile Include="IEventStore.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="Saga.cs" />
-    <Compile Include="Aggregate.cs" />
-    <Compile Include="EventStream.cs" />
+    <Compile Include="Handlers\IEventHandler.cs" />
+    <Compile Include="Persistence\IEventStore.cs" />
+    <Compile Include="Handlers\IHandler.cs" />
+    <Compile Include="Persistence\Repository.cs" />
+    <Compile Include="Domain\Saga.cs" />
+    <Compile Include="Domain\Aggregate.cs" />
+    <Compile Include="Domain\EventStream.cs" />
     <Compile Include="Exceptions\EventSourceException.cs" />
-    <Compile Include="ICommandHandler.cs" />
-    <Compile Include="IRepository.cs" />
+    <Compile Include="Handlers\ICommandHandler.cs" />
+    <Compile Include="Persistence\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamIdentifier.cs" />
+    <Compile Include="Domain\StreamIdentifier.cs" />
     <Compile Include="Exceptions\StreamIdentifierException.cs" />
   </ItemGroup>
   <ItemGroup>

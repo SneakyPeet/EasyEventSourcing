@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EasyEventSourcing.EventSourcing.Domain;
 using EasyEventSourcing.Messages;
 
-namespace EasyEventSourcing.EventSourcing
+namespace EasyEventSourcing.EventSourcing.Persistence
 {
     public class EventStoreStream
     {

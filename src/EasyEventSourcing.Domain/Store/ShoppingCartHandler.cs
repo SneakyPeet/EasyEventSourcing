@@ -1,5 +1,7 @@
 ﻿using System;
 using EasyEventSourcing.EventSourcing;
+using EasyEventSourcing.EventSourcing.Handlers;
+using EasyEventSourcing.EventSourcing.Persistence;
 using EasyEventSourcing.Messages.Store;
 
 namespace EasyEventSourcing.Domain.Store

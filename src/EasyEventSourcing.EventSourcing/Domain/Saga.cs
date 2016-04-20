@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using EasyEventSourcing.Messages;
 
-namespace EasyEventSourcing.EventSourcing
+namespace EasyEventSourcing.EventSourcing.Domain
 {
     public abstract class Saga : EventStream
     {

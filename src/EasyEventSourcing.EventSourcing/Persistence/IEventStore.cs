@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using EasyEventSourcing.EventSourcing.Domain;
 using EasyEventSourcing.Messages;
 
-namespace EasyEventSourcing.EventSourcing
+namespace EasyEventSourcing.EventSourcing.Persistence
 {
     public interface IEventStore
     {

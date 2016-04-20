@@ -1,6 +1,7 @@
 ﻿using System;
+using EasyEventSourcing.EventSourcing.Domain;
 
-namespace EasyEventSourcing.EventSourcing
+namespace EasyEventSourcing.EventSourcing.Persistence
 {
     public interface IRepository
     {

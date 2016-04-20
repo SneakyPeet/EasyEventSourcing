@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EasyEventSourcing.EventSourcing;
+using EasyEventSourcing.EventSourcing.Domain;
 using EasyEventSourcing.Messages.Orders;
 
 namespace EasyEventSourcing.Domain.Store

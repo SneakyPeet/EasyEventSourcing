@@ -1,4 +1,5 @@
 ﻿using EasyEventSourcing.EventSourcing;
+using EasyEventSourcing.EventSourcing.Domain;
 
 namespace EasyEventSourcing.Tests.Core.Helpers
 {

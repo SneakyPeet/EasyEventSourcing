@@ -1,7 +1,7 @@
-﻿using EasyEventSourcing.EventSourcing;
+﻿using EasyEventSourcing.EventSourcing.Handlers;
 using EasyEventSourcing.Messages;
 
-namespace EasyEventSourcing.Application
+namespace EasyEventSourcing.Application.Write
 {
     public interface ICommandHandlerFactory
     {

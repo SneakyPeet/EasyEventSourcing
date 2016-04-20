@@ -1,4 +1,5 @@
 ﻿using System;
+using EasyEventSourcing.EventSourcing.Domain;
 using EasyEventSourcing.Messages;
 
 namespace EasyEventSourcing.EventSourcing.Exceptions

@@ -3,7 +3,7 @@ using System;
 using EasyEventSourcing.EventSourcing.Exceptions;
 using EasyEventSourcing.Messages;
 
-namespace EasyEventSourcing.EventSourcing
+namespace EasyEventSourcing.EventSourcing.Domain
 {
     public abstract class EventStream
     {

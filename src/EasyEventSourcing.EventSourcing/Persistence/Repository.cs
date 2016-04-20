@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using EasyEventSourcing.EventSourcing.Domain;
 
-namespace EasyEventSourcing.EventSourcing
+namespace EasyEventSourcing.EventSourcing.Persistence
 {
     public class Repository : IRepository
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using EasyEventSourcing.EventSourcing.Exceptions;
 
-namespace EasyEventSourcing.EventSourcing
+namespace EasyEventSourcing.EventSourcing.Domain
 {
     public class StreamIdentifier
     {

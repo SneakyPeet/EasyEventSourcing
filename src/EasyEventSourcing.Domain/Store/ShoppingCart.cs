@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EasyEventSourcing.EventSourcing;
+using EasyEventSourcing.EventSourcing.Domain;
 using EasyEventSourcing.Messages.Orders;
 using EasyEventSourcing.Messages.Store;
 using System.Linq;

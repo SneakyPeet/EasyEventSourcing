@@ -1,39 +1,40 @@
 ﻿using EasyEventSourcing.Domain.Store;
 using System;
 using System.Collections.Generic;
-using EasyEventSourcing.EventSourcing;
 using EasyEventSourcing.EventSourcing.Exceptions;
+using EasyEventSourcing.EventSourcing.Handlers;
+using EasyEventSourcing.EventSourcing.Persistence;
 using EasyEventSourcing.Messages;
 using EasyEventSourcing.Messages.Store;
 
-namespace EasyEventSourcing.Application
+namespace EasyEventSourcing.Application.Write
 {
     public class CommandHandlerFactory : ICommandHandlerFactory
     {
-        private readonly Dictionary<Type, Func<IHandler>> handlers = new Dictionary<Type, Func<IHandler>>();
+        private readonly Dictionary<Type, Func<IHandler>> handlerFactories = new Dictionary<Type, Func<IHandler>>();
 
         public CommandHandlerFactory(IEventStore eventStore)
         {
             Func<IRepository> newTransientRepo = () => new Repository(eventStore);
 
-            RegisterTypesWithHandler(
+            this.RegisterHandlerFactoryWithTypes(
                 () => new ShoppingCartHandler(newTransientRepo()),
                 typeof(CreateNewCart), typeof(AddProductToCart), typeof(RemoveProductFromCart), typeof(EmptyCart), typeof(Checkout));
         }
 
-        private void RegisterTypesWithHandler(Func<IHandler> handler, params Type[] types)
+        private void RegisterHandlerFactoryWithTypes(Func<IHandler> handler, params Type[] types)
         {
             foreach(var type in types)
             {
-                this.handlers.Add(type, handler);
+                this.handlerFactories.Add(type, handler);
             }
         }
 
         public ICommandHandler<TCommand> Resolve<TCommand>() where TCommand : ICommand
         {
-            if(this.handlers.ContainsKey(typeof(TCommand)))
+            if (this.handlerFactories.ContainsKey(typeof(TCommand)))
             {
-                var handler = this.handlers[typeof(TCommand)]() as ICommandHandler<TCommand>;
+                var handler = this.handlerFactories[typeof(TCommand)]() as ICommandHandler<TCommand>;
                 if (handler != null)
                 {
                     return handler;

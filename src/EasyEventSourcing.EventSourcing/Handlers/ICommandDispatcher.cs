@@ -1,6 +1,6 @@
 ﻿using EasyEventSourcing.Messages;
 
-namespace EasyEventSourcing.Application
+namespace EasyEventSourcing.EventSourcing.Handlers
 {
     public interface ICommandDispatcher
     {

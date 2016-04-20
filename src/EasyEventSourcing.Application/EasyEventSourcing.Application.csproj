@@ -41,10 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="CommandHandlerFactory.cs" />
-    <Compile Include="CommandDispatcher.cs" />
-    <Compile Include="ICommandDispatcher.cs" />
-    <Compile Include="ICommandHandlerFactory.cs" />
+    <Compile Include="Write\CommandHandlerFactory.cs" />
+    <Compile Include="Write\CommandDispatcher.cs" />
+    <Compile Include="Read\EventHandlerFactory.cs" />
+    <Compile Include="Read\EventDispatcher.cs" />
+    <Compile Include="Write\ICommandHandlerFactory.cs" />
+    <Compile Include="Read\IEventHandlerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

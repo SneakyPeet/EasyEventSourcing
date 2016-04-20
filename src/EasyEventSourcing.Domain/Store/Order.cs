@@ -36,7 +36,6 @@ namespace EasyEventSourcing.Domain.Store
 
         public Order()
         {
-            throw new NotImplementedException();
         }
 
         private void Apply(OrderCreated evt)

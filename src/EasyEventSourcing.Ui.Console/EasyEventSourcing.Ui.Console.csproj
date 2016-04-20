@@ -54,6 +54,10 @@
       <Project>{fd79f067-cb36-4375-99a1-2a1a134186ac}</Project>
       <Name>EasyEventSourcing.Application</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EasyEventSourcing.Data\EasyEventSourcing.Data.csproj">
+      <Project>{daacafa5-5bf5-497a-a570-1f8c010a7ec7}</Project>
+      <Name>EasyEventSourcing.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasyEventSourcing.EventSourcing\EasyEventSourcing.EventSourcing.csproj">
       <Project>{6f93c10f-dcbf-454d-91f2-6cd521dedd9b}</Project>
       <Name>EasyEventSourcing.EventSourcing</Name>

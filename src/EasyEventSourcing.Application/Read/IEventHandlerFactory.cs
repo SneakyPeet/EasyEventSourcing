@@ -6,6 +6,6 @@ namespace EasyEventSourcing.Application.Read
 {
     public interface IEventHandlerFactory
     {
-        IEnumerable<IEventHandler<TEvent>> Resolve<TEvent>() where TEvent : IEvent;
+        IEnumerable<EventsHandler> Resolve(IEvent evt);
     }
 }

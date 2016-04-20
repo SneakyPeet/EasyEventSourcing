@@ -41,13 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\DomainException.cs" />
+    <Compile Include="Exceptions\NoEventHandlerMethodRegisteredException.cs" />
     <Compile Include="Exceptions\EventStreamNotFoundException.cs" />
     <Compile Include="Handlers\ICommandDispatcher.cs" />
     <Compile Include="Handlers\IEventDispatcher.cs" />
     <Compile Include="Persistence\EventStoreStream.cs" />
     <Compile Include="Exceptions\NoCommandHandlerRegisteredException.cs" />
     <Compile Include="Exceptions\NoEventApplyMethodRegisteredException.cs" />
-    <Compile Include="Handlers\IEventHandler.cs" />
+    <Compile Include="Handlers\EventsHandler.cs" />
     <Compile Include="Persistence\IEventStore.cs" />
     <Compile Include="Handlers\IHandler.cs" />
     <Compile Include="Persistence\Repository.cs" />

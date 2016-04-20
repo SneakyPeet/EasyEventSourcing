@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using EasyEventSourcing.EventSourcing.Handlers;
+﻿using EasyEventSourcing.EventSourcing.Handlers;
 using EasyEventSourcing.Messages;
 
 namespace EasyEventSourcing.Application.Read
@@ -12,9 +11,9 @@ namespace EasyEventSourcing.Application.Read
         {
             this.factory = factory;
         }
-        public void Send<TEvent>(TEvent evt) where TEvent : IEvent
+        public void Send(IEvent evt)
         {
-            var handlers = this.factory.Resolve<TEvent>();
+            var handlers = this.factory.Resolve(evt);
             foreach (var eventHandler in handlers)
             {
                 eventHandler.Handle(evt);

@@ -7,7 +7,7 @@ namespace EasyEventSourcing.EventSourcing.Domain
 {
     public abstract class EventStream
     {
-        private List<IEvent> changes;
+        private readonly List<IEvent> changes;
         protected Dictionary<Type, Action<IEvent>> eventAppliers;
 
         protected EventStream()
@@ -34,8 +34,6 @@ namespace EasyEventSourcing.EventSourcing.Domain
             this.changes.Add(evt);
         }
 
-        
-
         public StreamIdentifier StreamIdentifier
         {
             get
@@ -46,11 +44,12 @@ namespace EasyEventSourcing.EventSourcing.Domain
 
         private void Apply(IEvent evt)
         {
-            if(!this.eventAppliers.ContainsKey(evt.GetType()))
+            var evtType = evt.GetType();
+            if (!this.eventAppliers.ContainsKey(evtType))
             {
                 throw new NoEventApplyMethodRegisteredException(evt, this);
             }
-            this.eventAppliers[evt.GetType()](evt);
+            this.eventAppliers[evtType](evt);
         }
 
         public void LoadFromHistory(IEnumerable<IEvent> history)

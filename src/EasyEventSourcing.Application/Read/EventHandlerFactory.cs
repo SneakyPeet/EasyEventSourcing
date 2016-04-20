@@ -10,7 +10,7 @@ namespace EasyEventSourcing.Application.Read
 {
     public class EventHandlerFactory : IEventHandlerFactory
     {
-        private readonly Dictionary<Type, List<Func<IHandler>>> handlerFactories = new Dictionary<Type, List<Func<IHandler>>>();
+        private readonly Dictionary<Type, List<Func<EventsHandler>>> handlerFactories = new Dictionary<Type, List<Func<EventsHandler>>>();
 
         public EventHandlerFactory(MongoDb mongoDb)
         {
@@ -19,22 +19,23 @@ namespace EasyEventSourcing.Application.Read
                 typeof(CartCreated), typeof(ProductAddedToCart), typeof(ProductRemovedFromCart), typeof(CartEmptied), typeof(CartCheckedOut));
         }
 
-        private void RegisterHandlerFactoryWithTypes(Func<IHandler> handler, params Type[] types)
+        private void RegisterHandlerFactoryWithTypes(Func<EventsHandler> handler, params Type[] types)
         {
             foreach (var type in types)
             {
-                this.handlerFactories.Add(type, new List<Func<IHandler>>{handler});
+                this.handlerFactories.Add(type, new List<Func<EventsHandler>> { handler });
             }
         }
 
-        public IEnumerable<IEventHandler<TEvent>> Resolve<TEvent>() where TEvent : IEvent
+        public IEnumerable<EventsHandler> Resolve(IEvent evt)
         {
-            if (this.handlerFactories.ContainsKey(typeof(TEvent)))
+            var evtType = evt.GetType();
+            if (this.handlerFactories.ContainsKey(evtType))
             {
-                var factories = this.handlerFactories[typeof(TEvent)];
-                return factories.Select(h => h() as IEventHandler<TEvent>);
+                var factories = this.handlerFactories[evtType];
+                return factories.Select(h => h());
             }
-            return new List<IEventHandler<TEvent>>();
+            return new List<EventsHandler>();
         }
     }
 }

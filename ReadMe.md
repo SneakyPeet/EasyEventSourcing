@@ -5,7 +5,7 @@ The purpose of **EasyEventSourcing** is to showcase a working Application with i
 * No external libraries are used other than for testing purposes
 * Currently an in-memory event store is implemented for simplicity. For real world application use [EventStore](https://geteventstore.com/).
 
-Disclaimer: Although I have experienced the beauty of CQRS and DDD in production applications, I am yet to use Event Sourcing in a production system. The below write up and resulting code was born out of many many hours spent reading, youtubing, thinking, tinkering and arguing about Domain Driven Design, CQRS, Clean Code and Event Sourcing. I am pretty confident in the work but I am always open to correction, suggestions, fixes and pull requests.
+Disclaimer: Although I have experienced the beauty of CQRS and DDD in production applications, I am yet to use Event Sourcing in a production system. The below write up and resulting code was born out of many many hours spent reading, youtubing, thinking, tinkering and arguing about Domain Driven Design, CQRS, Clean Code and Event Sourcing. I am pretty confident in the work but I am always open to correction, suggestions, fixes and pull requests. (This is a work in progress, not all the domain features have been implemented and I am still iffy about some of the command code)
 
 ##A Very Simple Overview of Event Sourcing
 
@@ -167,8 +167,7 @@ A simple store domain was chosen as everyone is familiar with it. Rules where ch
 
 ###Shopping Cart
 
-* When sending a command to the shopping cart, 
-* the read model is checked to see if a cart exists. If a cart does not exist, we create one.
+* When sending a command to the shopping cart, the read model is checked to see if a cart exists. If a cart does not exist, we create one.
 * A cart is created using the factory function on the shopping cart class. Note that the consumer provides the cart id, thus we are not reliant on a database to generate an id for us. Internally the factory function creates a CartCreated event. 
 * When changing the contents of the cart, the read model is updated based on the relevant event.
 * When checking out, the shopping cart returns an Order aggregate. 
@@ -201,3 +200,4 @@ In this example the read models will simply be in-memory objects that keep state
 * **Testing** - `f(Events,Command) => Event(s)` testing is great, but is it enough? I don't think so
 * **Default Constructor Dependency** - I hate the default constructor dependency needed to build Aggregates and Sagas in the IRepository. I am not sure how to remove it :(
 * **Reuse Boilerplate per Bounded Context** - That means each bounded context gets bundled in it's own application. improves scalability per Context as well as Mobility.
+* **Event Sourcing in a Functional Language** - cause let's face it almost everything described above is a function

@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyEventSourcing.Data", "src\EasyEventSourcing.Data\EasyEventSourcing.Data.csproj", "{DAACAFA5-5BF5-497A-A570-1F8C010A7EC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyEventSourcing.EventProcessing", "src\EasyEventSourcing.EventProcessing\EasyEventSourcing.EventProcessing.csproj", "{21ACC04F-8562-49DA-B357-ADFC784CD12D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{DAACAFA5-5BF5-497A-A570-1F8C010A7EC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAACAFA5-5BF5-497A-A570-1F8C010A7EC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAACAFA5-5BF5-497A-A570-1F8C010A7EC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21ACC04F-8562-49DA-B357-ADFC784CD12D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21ACC04F-8562-49DA-B357-ADFC784CD12D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21ACC04F-8562-49DA-B357-ADFC784CD12D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21ACC04F-8562-49DA-B357-ADFC784CD12D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,9 +8,8 @@ using EasyEventSourcing.EventSourcing.Persistence;
 using EasyEventSourcing.Messages;
 using EasyEventSourcing.Messages.Store;
 using EasyEventSourcing.Messages.Orders;
-using EasyEventSourcing.Messages.Shipping;
 
-namespace EasyEventSourcing.Application.Write
+namespace EasyEventSourcing.Application
 {
     public class CommandHandlerFactory : ICommandHandlerFactory
     {

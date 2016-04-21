@@ -1,7 +1,6 @@
-﻿using EasyEventSourcing.Application.Read;
-using EasyEventSourcing.Application.Write;
-using EasyEventSourcing.Data;
+﻿using EasyEventSourcing.Data;
 using EasyEventSourcing.Data.MongoDb;
+using EasyEventSourcing.EventProcessing;
 using EasyEventSourcing.Messages;
 
 namespace EasyEventSourcing.Application
@@ -10,12 +9,15 @@ namespace EasyEventSourcing.Application
     {
         public static PretendApplication Bootstrap()
         {
-            var mongoDb = new MongoDb();
-            var eventHandlerFactory = new EventHandlerFactory(mongoDb);
-            var eventDispatcher = new EventDispatcher(eventHandlerFactory);
-            var store = new InMemoryEventStore(eventDispatcher);
+            var store = new InMemoryEventStore();
             var handlerFactory = new CommandHandlerFactory(store);
-            var dispatcher =  new CommandDispatcher(handlerFactory);
+            var dispatcher = new CommandDispatcher(handlerFactory);
+            
+            var mongoDb = new MongoDb();
+            var eventHandlerFactory = new EventHandlerFactory(store, dispatcher, mongoDb);
+            var eventDispatcher = new EventDispatcher(eventHandlerFactory);
+            var eventProcessor = new EventProcessor(store, eventDispatcher);
+
             return new PretendApplication(mongoDb, dispatcher);
         }
 

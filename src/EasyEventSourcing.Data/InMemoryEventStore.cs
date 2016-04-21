@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EasyEventSourcing.EventSourcing.Domain;
 using EasyEventSourcing.EventSourcing.Exceptions;
-using EasyEventSourcing.EventSourcing.Handlers;
 using EasyEventSourcing.EventSourcing.Persistence;
 using EasyEventSourcing.Messages;
 
@@ -9,14 +9,9 @@ namespace EasyEventSourcing.Data
 {
     public class InMemoryEventStore : IEventStore
     {
-        private readonly IEventDispatcher dispatcher;
-
         private readonly Dictionary<string, List<IEvent>> store = new Dictionary<string, List<IEvent>>();
 
-        public InMemoryEventStore(IEventDispatcher dispatcher)
-        {
-            this.dispatcher = dispatcher;
-        }
+        private readonly List<IEventObserver> eventObservers = new List<IEventObserver>(); 
 
         public IEnumerable<IEvent> GetByStreamId(StreamIdentifier streamId)
         {
@@ -52,8 +47,27 @@ namespace EasyEventSourcing.Data
         {
             foreach (var evt in newEvents)
             {
-                this.dispatcher.Send(evt); //todo fix
+                NotifySubscribers(evt);
             }
+        }
+
+        private void NotifySubscribers(IEvent evt)
+        {
+            foreach(var observer in eventObservers)
+            {
+                observer.Notify(evt);
+            }
+        }
+
+        public Action Subscribe(IEventObserver observer)
+        {
+            this.eventObservers.Add(observer);
+            return () => this.Unsubscribe(observer);
+        }
+
+        private void Unsubscribe(IEventObserver observer)
+        {
+            eventObservers.Remove(observer);
         }
     }
 }

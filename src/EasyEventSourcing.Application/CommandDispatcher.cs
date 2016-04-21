@@ -1,7 +1,7 @@
 ﻿using EasyEventSourcing.EventSourcing.Handlers;
 using EasyEventSourcing.Messages;
 
-namespace EasyEventSourcing.Application.Write
+namespace EasyEventSourcing.Application
 {
     public class CommandDispatcher : ICommandDispatcher
     {

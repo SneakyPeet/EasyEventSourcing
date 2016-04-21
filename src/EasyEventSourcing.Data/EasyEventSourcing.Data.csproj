@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IEventObserver.cs" />
     <Compile Include="MongoDb\ShoppingCartEventHandler.cs" />
     <Compile Include="MongoDb\MongoDb.cs" />
     <Compile Include="InMemoryEventStore.cs" />

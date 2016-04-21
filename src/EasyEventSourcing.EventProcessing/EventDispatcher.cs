@@ -1,7 +1,7 @@
 ﻿using EasyEventSourcing.EventSourcing.Handlers;
 using EasyEventSourcing.Messages;
 
-namespace EasyEventSourcing.Application.Read
+namespace EasyEventSourcing.EventProcessing
 {
     public class EventDispatcher : IEventDispatcher
     {

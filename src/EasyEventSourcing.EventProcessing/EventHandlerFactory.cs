@@ -1,27 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using EasyEventSourcing.Data.MongoDb;
+using EasyEventSourcing.Domain.Shipping;
 using EasyEventSourcing.EventSourcing.Handlers;
+using EasyEventSourcing.EventSourcing.Persistence;
 using EasyEventSourcing.Messages;
 using System.Linq;
+using EasyEventSourcing.Messages.Orders;
 using EasyEventSourcing.Messages.Store;
 
-namespace EasyEventSourcing.Application.Read
+namespace EasyEventSourcing.EventProcessing
 {
     public class EventHandlerFactory : IEventHandlerFactory
     {
         private readonly Dictionary<Type, List<Func<EventsHandler>>> handlerFactories = new Dictionary<Type, List<Func<EventsHandler>>>();
 
-        public EventHandlerFactory(MongoDb mongoDb)
+        public EventHandlerFactory(IEventStore eventStore, ICommandDispatcher dispatcher, MongoDb mongo)
         {
-            RegisterHandlerFactoryWithTypes(
-                () => new ShoppingCartEventHandler(mongoDb),
+            RegisterHandlerFactories(eventStore,dispatcher,mongo);
+        }
+
+        private void RegisterHandlerFactories(IEventStore eventStore, ICommandDispatcher dispatcher, MongoDb mongo)
+        {
+            this.RegisterHandlerFactoryWithTypes(
+                () => new ShoppingCartEventHandler(mongo),
                 typeof(CartCreated), typeof(ProductAddedToCart), typeof(ProductRemovedFromCart), typeof(CartEmptied), typeof(CartCheckedOut));
 
-            //oh no circular reference -- todo move eventshandling out of event store
-            //RegisterHandlerFactoryWithTypes(
-            //    () => new OrderEventHandler(new Repository(eventStore), dispatcher),
-            //    typeof(OrderCreated), typeof(PaymentReceived), typeof(ShippingAddressConfirmed));
+            this.RegisterHandlerFactoryWithTypes(
+                () => new OrderEventHandler(new Repository(eventStore), dispatcher),
+                typeof(OrderCreated), typeof(PaymentReceived), typeof(ShippingAddressConfirmed));
         }
 
         private void RegisterHandlerFactoryWithTypes(Func<EventsHandler> handler, params Type[] types)

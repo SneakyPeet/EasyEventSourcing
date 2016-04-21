@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EasyEventSourcing.EventSourcing;
 using EasyEventSourcing.EventSourcing.Domain;
-using EasyEventSourcing.EventSourcing.Handlers;
-using EasyEventSourcing.EventSourcing.Persistence;
 using EasyEventSourcing.Messages.Orders;
 using EasyEventSourcing.Messages.Shipping;
 
-namespace EasyEventSourcing.Domain.Store
+namespace EasyEventSourcing.Domain.Orders
 {
     public class Order : Aggregate
     {
         protected override void RegisterAppliers()
         {
-            RegisterApplier<OrderCreated>(this.Apply);
-            RegisterApplier<PaymentReceived>(this.Apply);
-            RegisterApplier<ShippingAddressConfirmed>(this.Apply);
-            RegisterApplier<OrderCompleted>(this.Apply);
+            this.RegisterApplier<OrderCreated>(this.Apply);
+            this.RegisterApplier<PaymentReceived>(this.Apply);
+            this.RegisterApplier<ShippingAddressConfirmed>(this.Apply);
+            this.RegisterApplier<OrderCompleted>(this.Apply);
         }
 
         private bool paidFor;
@@ -31,7 +28,7 @@ namespace EasyEventSourcing.Domain.Store
 
         private Order(Guid orderId, Guid clientId, IEnumerable<OrderItem> items)
         {
-            ApplyChanges(new OrderCreated(orderId, clientId, items.ToArray()));
+            this.ApplyChanges(new OrderCreated(orderId, clientId, items.ToArray()));
         }
 
         public Order()
@@ -47,7 +44,7 @@ namespace EasyEventSourcing.Domain.Store
         {
             if(!this.shippingAddressProvided && !this.completed)
             {
-                ApplyChanges(new ShippingAddressConfirmed(this.id, address));
+                this.ApplyChanges(new ShippingAddressConfirmed(this.id, address));
             }
         }
 
@@ -60,7 +57,7 @@ namespace EasyEventSourcing.Domain.Store
         {
             if (!this.paidFor && !this.completed)
             {
-                ApplyChanges(new PaymentReceived(this.id));
+                this.ApplyChanges(new PaymentReceived(this.id));
             }
         }
 
@@ -81,40 +78,6 @@ namespace EasyEventSourcing.Domain.Store
         private void Apply(OrderCompleted evt)
         {
             this.completed = true;
-        }
-    }
-
-    public class OrderHandler
-        : ICommandHandler<PayForOrder>
-        , ICommandHandler<ConfirmShippingAddress>
-        , ICommandHandler<ShipOrder>
-    {
-        private readonly IRepository repository;
-
-        public OrderHandler(IRepository repository)
-        {
-            this.repository = repository;
-        }
-
-        public void Handle(PayForOrder cmd)
-        {
-            var order = this.repository.GetById<Order>(cmd.OrderId);
-            order.Pay();
-            this.repository.Save(order);
-        }
-
-        public void Handle(ConfirmShippingAddress cmd)
-        {
-            var order = this.repository.GetById<Order>(cmd.OrderId);
-            order.ProvideShippingAddress(cmd.Address);
-            this.repository.Save(order);
-        }
-
-        public void Handle(ShipOrder cmd)
-        {
-            var order = this.repository.GetById<Order>(cmd.OrderId);
-            order.CompleteOrder();
-            this.repository.Save(order);
         }
     }
 }

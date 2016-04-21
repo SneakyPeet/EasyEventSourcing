@@ -1,4 +1,5 @@
-﻿using EasyEventSourcing.Domain.Store;
+﻿using EasyEventSourcing.Domain.Orders;
+using EasyEventSourcing.Domain.Store;
 using System;
 using System.Collections.Generic;
 using EasyEventSourcing.EventSourcing.Exceptions;
@@ -25,7 +26,7 @@ namespace EasyEventSourcing.Application.Write
 
             this.RegisterHandlerFactoryWithTypes(
                 () => new OrderHandler(newTransientRepo()),
-                typeof(PayForOrder), typeof(ConfirmShippingAddress), typeof(ShipOrder));
+                typeof(PayForOrder), typeof(ConfirmShippingAddress), typeof(CompleteOrder));
         }
 
         private void RegisterHandlerFactoryWithTypes(Func<IHandler> handler, params Type[] types)

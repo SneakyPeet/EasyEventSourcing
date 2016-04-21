@@ -5,7 +5,7 @@ namespace EasyEventSourcing.EventSourcing.Domain
 {
     public abstract class Saga : EventStream
     {
-        private List<ICommand> unpublishedCommands;
+        private readonly List<ICommand> unpublishedCommands;
 
         protected Saga()
         {

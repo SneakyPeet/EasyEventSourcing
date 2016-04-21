@@ -31,3 +31,11 @@ type ShippingAddressConfirmed = {
     OrderId: Guid;
     Address: string; 
 } with interface IEvent
+
+type CompleteOrder = {
+    OrderId: Guid;
+} with interface ICommand
+
+type OrderCompleted = {
+    OrderId: Guid;
+} with interface IEvent

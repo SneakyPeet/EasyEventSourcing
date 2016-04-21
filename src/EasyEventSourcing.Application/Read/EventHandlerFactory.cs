@@ -17,6 +17,11 @@ namespace EasyEventSourcing.Application.Read
             RegisterHandlerFactoryWithTypes(
                 () => new ShoppingCartEventHandler(mongoDb),
                 typeof(CartCreated), typeof(ProductAddedToCart), typeof(ProductRemovedFromCart), typeof(CartEmptied), typeof(CartCheckedOut));
+
+            //oh no circular reference -- todo move eventshandling out of event store
+            //RegisterHandlerFactoryWithTypes(
+            //    () => new OrderEventHandler(new Repository(eventStore), dispatcher),
+            //    typeof(OrderCreated), typeof(PaymentReceived), typeof(ShippingAddressConfirmed));
         }
 
         private void RegisterHandlerFactoryWithTypes(Func<EventsHandler> handler, params Type[] types)

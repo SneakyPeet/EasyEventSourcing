@@ -40,10 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Orders\OrderHandler.cs" />
+    <Compile Include="Shipping\ShippingSaga.cs" />
+    <Compile Include="Shipping\OrderEventHandler.cs" />
     <Compile Include="Store\CannotCheckoutEmptyCartException.cs" />
-    <Compile Include="Store\CannotCompleteOrderException.cs" />
+    <Compile Include="Orders\CannotCompleteOrderException.cs" />
     <Compile Include="Store\CartAlreadyCheckedOutException.cs" />
-    <Compile Include="Store\Order.cs" />
+    <Compile Include="Orders\Order.cs" />
     <Compile Include="Store\ShoppingCart.cs" />
     <Compile Include="Store\ShoppingCartHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

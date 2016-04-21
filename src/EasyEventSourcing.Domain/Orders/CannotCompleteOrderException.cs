@@ -1,6 +1,6 @@
 ﻿using EasyEventSourcing.EventSourcing.Domain;
 
-namespace EasyEventSourcing.Domain.Store
+namespace EasyEventSourcing.Domain.Orders
 {
     public class CannotCompleteOrderException : DomainException {}
 }

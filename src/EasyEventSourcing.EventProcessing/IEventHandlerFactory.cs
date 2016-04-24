@@ -6,6 +6,6 @@ namespace EasyEventSourcing.EventProcessing
 {
     public interface IEventHandlerFactory
     {
-        IEnumerable<EventsHandler> Resolve(IEvent evt);
+        IEnumerable<IEventHandler<TEvent>> Resolve<TEvent>(TEvent evt) where TEvent : IEvent;
     }
 }

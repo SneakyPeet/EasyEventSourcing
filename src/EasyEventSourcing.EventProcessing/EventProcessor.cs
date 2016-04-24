@@ -16,7 +16,7 @@ namespace EasyEventSourcing.EventProcessing
             this.unsubscribe = store.Subscribe(this);
         }
 
-        public void Notify(IEvent evt)
+        public void Notify<TEvent>(TEvent evt) where TEvent : IEvent
         {
             dispatcher.Send(evt);
         }

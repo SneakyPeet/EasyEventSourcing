@@ -53,9 +53,10 @@ namespace EasyEventSourcing.Data
 
         private void NotifySubscribers(IEvent evt)
         {
+            dynamic typeAwareEvent = evt; //this cast is required to pass the correct Type to the Notify Method. Otherwise IEvent is used as the Type
             foreach(var observer in eventObservers)
             {
-                observer.Notify(evt);
+                observer.Notify(typeAwareEvent);
             }
         }
 

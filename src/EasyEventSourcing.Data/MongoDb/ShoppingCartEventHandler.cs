@@ -5,7 +5,12 @@ using EasyEventSourcing.Messages.Store;
 
 namespace EasyEventSourcing.Data.MongoDb
 {
-    public class ShoppingCartEventHandler : EventsHandler
+    public class ShoppingCartEventHandler 
+        : IEventHandler<CartCreated>
+        , IEventHandler<ProductAddedToCart>
+        , IEventHandler<ProductRemovedFromCart>
+        , IEventHandler<CartEmptied>
+        , IEventHandler<CartCheckedOut>
     {
         private readonly MongoDb db;
 
@@ -14,16 +19,7 @@ namespace EasyEventSourcing.Data.MongoDb
             this.db = db;
         }
 
-        protected override void RegisterHandlers()
-        {
-            RegisterHandler<CartCreated>(this.Handle);
-            RegisterHandler<ProductAddedToCart>(this.Handle);
-            RegisterHandler<ProductRemovedFromCart>(this.Handle);
-            RegisterHandler<CartEmptied>(this.Handle);
-            RegisterHandler<CartCheckedOut>(this.Handle);
-        }
-
-        private void Handle(CartCreated evt)
+        public void Handle(CartCreated evt)
         {
             var newCart = new ShoppingCartReadModel
                               {
@@ -33,7 +29,7 @@ namespace EasyEventSourcing.Data.MongoDb
             db.SaveCart(newCart);
         }
 
-        private void Handle(ProductAddedToCart evt)
+        public void Handle(ProductAddedToCart evt)
         {
             var cart = db.GetCartById(evt.CartId);
             var product = cart.Items.FirstOrDefault(x => x.ProductId == evt.ProductId);
@@ -52,25 +48,23 @@ namespace EasyEventSourcing.Data.MongoDb
             db.SaveCart(cart);
         }
 
-        private void Handle(ProductRemovedFromCart evt)
+        public void Handle(ProductRemovedFromCart evt)
         {
             var cart = db.GetCartById(evt.CartId);
             cart.Items.RemoveAll(x => x.ProductId == evt.ProductId);
             db.SaveCart(cart);
         }
 
-        private void Handle(CartEmptied evt)
+        public void Handle(CartEmptied evt)
         {
             var cart = db.GetCartById(evt.CartId);
             cart.Items.Clear();
             db.SaveCart(cart);
         }
 
-        private void Handle(CartCheckedOut evt)
+        public void Handle(CartCheckedOut evt)
         {
             db.RemoveCart(evt.CartId);
         }
-
-        
     }
 }

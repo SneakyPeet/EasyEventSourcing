@@ -4,6 +4,6 @@ namespace EasyEventSourcing.Data
 {
     public interface IEventObserver
     {
-        void Notify(IEvent evt);
+        void Notify<TEvent>(TEvent evt) where TEvent : IEvent;
     }
 }

@@ -13,7 +13,7 @@ namespace EasyEventSourcing.EventProcessing
 {
     public class EventHandlerFactory : IEventHandlerFactory
     {
-        private readonly Dictionary<Type, List<Func<EventsHandler>>> handlerFactories = new Dictionary<Type, List<Func<EventsHandler>>>();
+        private readonly Dictionary<Type, List<Func<IHandler>>> handlerFactories = new Dictionary<Type, List<Func<IHandler>>>();
 
         public EventHandlerFactory(IEventStore eventStore, ICommandDispatcher dispatcher, MongoDb mongo)
         {
@@ -31,23 +31,23 @@ namespace EasyEventSourcing.EventProcessing
                 typeof(OrderCreated), typeof(PaymentReceived), typeof(ShippingAddressConfirmed));
         }
 
-        private void RegisterHandlerFactoryWithTypes(Func<EventsHandler> handler, params Type[] types)
+        private void RegisterHandlerFactoryWithTypes(Func<IHandler> handler, params Type[] types)
         {
             foreach (var type in types)
             {
-                this.handlerFactories.Add(type, new List<Func<EventsHandler>> { handler });
+                this.handlerFactories.Add(type, new List<Func<IHandler>> { handler });
             }
         }
 
-        public IEnumerable<EventsHandler> Resolve(IEvent evt)
+        public IEnumerable<IEventHandler<TEvent>> Resolve<TEvent>(TEvent evt) where TEvent : IEvent
         {
             var evtType = evt.GetType();
             if (this.handlerFactories.ContainsKey(evtType))
             {
                 var factories = this.handlerFactories[evtType];
-                return factories.Select(h => h());
+                return factories.Select(h => (IEventHandler<TEvent>)h());
             }
-            return new List<EventsHandler>();
+            return new List<IEventHandler<TEvent>>();
         }
     }
 }

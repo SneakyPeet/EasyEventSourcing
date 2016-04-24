@@ -11,12 +11,12 @@ namespace EasyEventSourcing.EventProcessing
         {
             this.factory = factory;
         }
-        public void Send(IEvent evt)
+        public void Send<TEvent>(TEvent evt) where TEvent : IEvent
         {
             var handlers = this.factory.Resolve(evt);
             foreach (var eventHandler in handlers)
             {
-                eventHandler.HandleEvent(evt);
+                eventHandler.Handle(evt);
             }
         }
     }

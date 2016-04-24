@@ -4,6 +4,6 @@ namespace EasyEventSourcing.EventSourcing.Handlers
 {
     public interface IEventDispatcher
     {
-        void Send(IEvent evt);
+        void Send<TEvent>(TEvent evt) where TEvent : IEvent;
     }
 }

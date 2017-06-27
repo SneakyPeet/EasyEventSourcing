@@ -11,12 +11,12 @@ using SharpTestsEx;
 
 namespace EasyEventSourcing.Tests.Domain.Helpers
 {
-    class Spesification
+    class Specification
     {
         protected readonly ICommandDispatcher app;
         protected readonly TestEventStore eventStore;
 
-        protected Spesification()
+        protected Specification()
         {
             this.eventStore = new TestEventStore();
             var commandHandlerFactory = new CommandHandlerFactory(this.eventStore);

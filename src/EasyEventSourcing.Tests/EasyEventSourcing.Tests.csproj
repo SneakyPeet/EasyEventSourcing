@@ -48,7 +48,7 @@
     <Compile Include="Core\Helpers\InvalidEvent.cs" />
     <Compile Include="Core\Helpers\TestEvent.cs" />
     <Compile Include="Domain\Helpers\EventStreamEvent.cs" />
-    <Compile Include="Domain\Helpers\Spesification.cs" />
+    <Compile Include="Domain\Helpers\Specification.cs" />
     <Compile Include="Domain\Helpers\TestEventStore.cs" />
     <Compile Include="Domain\Helpers\TestExtensions.cs" />
     <Compile Include="Domain\Store\ShoppingCartTests.cs" />

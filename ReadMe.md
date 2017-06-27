@@ -76,13 +76,13 @@ The CommandHandlerFactory resolves `CommandHandlers` based on the type of the co
 ###CommandHandlers
 CommandHandlers can be seen as the Application Services of the domain. Their main purpose is orchestration. Based on the Command, they will get the current state from the Repository, trigger the relevant domain logic (via an aggregate), and push the resulting state back to the Repository for Persistence. CommandHandlers all inherit from `ICommandHandler<TCommand>`.
 
-###EventStreams (Aggregates and Sagas)
-The bulk of the domain logic is implemented using Aggregates and Sagas. The simplest way to describe the difference is
+###EventStreams (Aggregates and Process Managers)
+The bulk of the domain logic is implemented using Aggregates and Process Managers. The simplest way to describe the difference is
 
 * Aggregates generate Events from Commands. Mainly used to implement logic inside a bounded context.
-* Sagas generate Commands from Events (Can be seen as a kind of "transaction" spanning Bounded Contexts).
+* Process Managers generate Commands from Events (Can be seen as a kind of "transaction" spanning Bounded Contexts).
 
-Both aggregates and sagas inherit from the abstract **EventStream** class. The EventStream implementation is responsible for building state and keeping track of changes to this state in the form of newly created events. 
+Both aggregates and process managers inherit from the abstract **EventStream** class. The EventStream implementation is responsible for building state and keeping track of changes to this state in the form of newly created events. 
 
 Here is how the aggregate manages state.
 
@@ -104,14 +104,14 @@ NOTE:
 * Events with no applier method will throw an exception. Again this forces us to be explicit.
 * Applier Methods should never throw exceptions. State should always be built up state from previous events, even if that state is no longer valid. Exceptions relating to logic should be thrown inside the calling method before ApplyChanges is called.
 
-The same is done for Saga's however they are modeled as `f(Events, Event) => (Command(s), Event(s))`.
+The same is done for Process Manager's however they are modeled as `f(Events, Event) => (Command(s), Event(s))`.
 
 ###StreamIdentifier
-Streams are identified by using the Aggregate/Saga name as well as the relevant id (Example: `ShoppingCart-809b71b5-1fc5-4039-b7fe-5d23aa58c5b4`). 
+Streams are identified by using the Aggregate/Process Manager name as well as the relevant id (Example: `ShoppingCart-809b71b5-1fc5-4039-b7fe-5d23aa58c5b4`). 
 
 ##Persistence
 ###Repository
-The Repository is responsible for getting a stream of events from the EventStore (based on the StreamIdentifier), creating the relevant EventStream object (either an Aggregate or Saga), replaying the events onto that stream to rebuild the state and finally giving the EventStream object back to the CommandHandler. This is all achieved with the `T GetById<T>(Guid id) where T : EventStream` method.
+The Repository is responsible for getting a stream of events from the EventStore (based on the StreamIdentifier), creating the relevant EventStream object (either an Aggregate or Process Manager), replaying the events onto that stream to rebuild the state and finally giving the EventStream object back to the CommandHandler. This is all achieved with the `T GetById<T>(Guid id) where T : EventStream` method.
 
 Secondly it takes EventStream objects and passes the newly created events to the EventStore for saving. This is done using `void Save(EventStream stream)`.
 
@@ -144,7 +144,7 @@ However! I am not sure if this is actually a good thing. Testing if an EmptyCart
 
 #Domain
 ##Rules
-A simple store domain was chosen as everyone is familiar with it. Rules where chosen in such a way as to provide examples of bounded context, eventual consistency and saga's.
+A simple store domain was chosen as everyone is familiar with it. Rules where chosen in such a way as to provide examples of bounded context, eventual consistency and process manager's.
 ###Shopping Cart
 
 * You should be able to add and remove items from a shopping cart as well as empty a shopping cart
@@ -157,7 +157,7 @@ A simple store domain was chosen as everyone is familiar with it. Rules where ch
 
 ###Shipping
 
-* Once an order is and paid and address confirmed a shipping instruction should be created. For added complexity there is no sequence for paying and ordering, thus a saga is required for generating the shipping instruction.
+* Once an order is and paid and address confirmed a shipping instruction should be created. For added complexity there is no sequence for paying and ordering, thus a process manager is required for generating the shipping instruction.
 
 ###Customer
 
@@ -182,7 +182,7 @@ A simple store domain was chosen as everyone is familiar with it. Rules where ch
 ###Shipping (todo)
 
 * A shipping instruction is created when an order has been paid for and a shipping address has been provided.
-* The shipping logic is implemented by using a saga as a state machine. The saga is generated from the OrderCreated Event. Once the saga has all the detail it needs, it will generate the shipping instruction as a command and send it to the relevant CommandHandler.
+* The shipping logic is implemented by using a process manager as a state machine. The process manager is generated from the OrderCreated Event. Once the process manager has all the detail it needs, it will generate the shipping instruction as a command and send it to the relevant CommandHandler.
 * We will assume a shipping instruction equates to a delivered package and mark our Order as complete.
 
 ###Customer Details (todo)
@@ -198,6 +198,6 @@ In this example the read models will simply be in-memory objects that keep state
 * **Saving Commandse** - Gives the ability to replay all actions against a changed domain and compare the differences. Also acts as a log.
 * **But Who Sent The Command?** - Logging user info as meta data with the command
 * **Testing** - `f(Events,Command) => Event(s)` testing is great, but is it enough? I don't think so
-* **Default Constructor Dependency** - I hate the default constructor dependency needed to build Aggregates and Sagas in the IRepository. I am not sure how to remove it :(
+* **Default Constructor Dependency** - I hate the default constructor dependency needed to build Aggregates and Process Managers in the IRepository. I am not sure how to remove it :(
 * **Reuse Boilerplate per Bounded Context** - That means each bounded context gets bundled in it's own application. improves scalability per Context as well as Mobility.
 * **Event Sourcing in a Functional Language** - cause let's face it almost everything described above is a function

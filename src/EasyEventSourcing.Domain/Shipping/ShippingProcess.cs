@@ -6,7 +6,7 @@ using EasyEventSourcing.Messages.Shipping;
 
 namespace EasyEventSourcing.Domain.Shipping
 {
-    public class ShippingSaga : Saga
+    public class ShippingProcess : ProcessManager
     {
         protected override void RegisterAppliers()
         {
@@ -27,14 +27,14 @@ namespace EasyEventSourcing.Domain.Shipping
 
         private Status status = Status.Started;
 
-        public ShippingSaga() { }
+        public ShippingProcess() { }
 
-        public static ShippingSaga Create(Guid orderId)
+        public static ShippingProcess Create(Guid orderId)
         {
-            return new ShippingSaga(orderId);
+            return new ShippingProcess(orderId);
         }
 
-        private ShippingSaga(Guid orderId)
+        private ShippingProcess(Guid orderId)
         {
             ApplyChanges(new StartedShippingProcess(orderId));
         }

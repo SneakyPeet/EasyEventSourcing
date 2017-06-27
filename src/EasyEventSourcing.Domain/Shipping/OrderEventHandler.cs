@@ -20,22 +20,22 @@ namespace EasyEventSourcing.Domain.Shipping
 
         public void Handle(OrderCreated evt)
         {
-            var saga = ShippingSaga.Create(evt.OrderId);
-            repo.Save(saga);
+            var process = ShippingProcess.Create(evt.OrderId);
+            repo.Save(process);
         }
 
         public void Handle(PaymentReceived evt)
         {
-            var saga = this.repo.GetById<ShippingSaga>(evt.OrderId);
-            saga.ConfirmPayment(dispatcher);
-            this.repo.Save(saga);
+            var process = this.repo.GetById<ShippingProcess>(evt.OrderId);
+            process.ConfirmPayment(dispatcher);
+            this.repo.Save(process);
         }
 
         public void Handle(ShippingAddressConfirmed evt)
         {
-            var saga = this.repo.GetById<ShippingSaga>(evt.OrderId);
-            saga.ConfirmAddress(dispatcher);
-            this.repo.Save(saga);
+            var process = this.repo.GetById<ShippingProcess>(evt.OrderId);
+            process.ConfirmAddress(dispatcher);
+            this.repo.Save(process);
         }
     }
 }

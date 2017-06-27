@@ -35,8 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Orders\OrderHandler.cs" />
-    <Compile Include="Shipping\ShippingSaga.cs" />
     <Compile Include="Shipping\OrderEventHandler.cs" />
+    <Compile Include="Shipping\ShippingProcess.cs" />
     <Compile Include="Store\CannotCheckoutEmptyCartException.cs" />
     <Compile Include="Orders\CannotCompleteOrderException.cs" />
     <Compile Include="Store\CartAlreadyCheckedOutException.cs" />

@@ -35,7 +35,10 @@ namespace EasyEventSourcing.EventProcessing
         {
             foreach (var type in types)
             {
-                this.handlerFactories.Add(type, new List<Func<IHandler>> { handler });
+                if (!this.handlerFactories.ContainsKey(type))
+                    this.handlerFactories.Add(type, new List<Func<IHandler>> { handler });
+                else
+                    this.handlerFactories[type].Add(handler);
             }
         }
 

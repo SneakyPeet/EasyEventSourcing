@@ -3,11 +3,11 @@ using EasyEventSourcing.Messages;
 
 namespace EasyEventSourcing.EventSourcing.Domain
 {
-    public abstract class Saga : EventStream
+    public abstract class ProcessManager : EventStream
     {
         private readonly List<ICommand> unpublishedCommands;
 
-        protected Saga()
+        protected ProcessManager()
         {
             this.unpublishedCommands = new List<ICommand>();
         }

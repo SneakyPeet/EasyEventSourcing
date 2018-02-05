@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace EasyEventSourcing.Tests.Domain.Store
 {
-    class ShoppingCartTests : Spesification
+    class ShoppingCartTests : Specification
     {
         private readonly Guid cartId = Guid.NewGuid();
         private readonly Guid clientId = Guid.NewGuid();

@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\DomainException.cs" />
+    <Compile Include="Domain\ProcessManager.cs" />
     <Compile Include="Exceptions\NoEventHandlerMethodRegisteredException.cs" />
     <Compile Include="Exceptions\EventStreamNotFoundException.cs" />
     <Compile Include="Handlers\ICommandDispatcher.cs" />
@@ -46,7 +47,6 @@
     <Compile Include="Persistence\IEventStore.cs" />
     <Compile Include="Handlers\IHandler.cs" />
     <Compile Include="Persistence\Repository.cs" />
-    <Compile Include="Domain\Saga.cs" />
     <Compile Include="Domain\Aggregate.cs" />
     <Compile Include="Domain\EventStream.cs" />
     <Compile Include="Exceptions\EventSourceException.cs" />
